@@ -1,0 +1,42 @@
+.container
+  position: fixed
+  inset: 0 0 0 auto
+  z-index: 5000
+  width: 100%
+  max-width: 700px
+  padding: 50px 40px
+  background-color: var(--c-white)
+  overflow-y: auto
+  transform: translateX(700px)
+  transition: .4s transform
+  will-change: transform
+
+.asideShow
+  transform: translateX(0)
+  & + .bg
+    display: block
+
+.header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  margin-bottom: 30px
+  h2
+    font-weight: 700
+    font-size: 30px
+    line-height: 120%
+  svg
+    cursor: pointer
+    &:hover
+      opacity: .7
+
+.bg
+  display: none
+  position: fixed
+  inset: 0
+  z-index: 4999
+  background-color: rgba(0, 0, 0, 0.5)
+
+@media (max-width: 479px)
+  .container
+    padding: 50px 20px

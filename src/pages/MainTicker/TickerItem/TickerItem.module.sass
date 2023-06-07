@@ -1,0 +1,37 @@
+.item
+  position: relative
+  display: flex
+  align-items: center
+  background-color: var(--c-white)
+  padding: 0 20px
+  height: 90px
+  border-bottom: #F5F5F5 solid 1px
+  transition: background-color .2s
+  &:last-of-type
+    border-bottom: none
+  &:hover
+    background-color: #FBFBFB
+  span
+    width: 8px
+    color: #000
+    opacity: .5
+    user-select: none
+  img
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    height: 50px
+    width: 80px
+    object-fit: contain
+    pointer-events: none
+    user-select: none
+  svg
+    padding: 10px
+    box-sizing: content-box
+    &:hover
+      opacity: .7
+    &:first-of-type
+      margin: 0 auto 0 30px
+    &:last-of-type
+      cursor: pointer

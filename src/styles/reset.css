@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent
+}
+
+html, body, div, span, iframe, h1, h2, h3, h4, h5, h6,
+p, a, img, ul, li, form, label, legend, caption, article,
+aside, canvas, figure, figcaption, footer, header,
+menu, nav, section, input, textarea, button {
+  border: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  vertical-align: baseline;
+  color: inherit;
+}
+article, aside, details, figcaption, figure, footer, header,
+hgroup, menu, nav, textarea, section, label, input, textarea {
+  display: block;
+}
+a {
+  text-decoration: none
+}
+input:focus, button:focus, textarea:focus, select {
+  outline: none;
+}
+ol, ul, li {
+  list-style: none;
+}
+button, a, select {
+  cursor: pointer
+}
+button {
+  background-color: transparent;
+}
+

@@ -1,0 +1,51 @@
+.header
+  position: sticky
+  z-index: 99
+  top: 0
+  padding: 15px 40px
+  display: flex
+  align-items: center
+  background-color: var(--c-white)
+
+.burgerIcon
+  box-sizing: content-box
+  padding: 5px 10px 5px 0
+  margin-right: 30px
+  cursor: pointer
+  display: none
+
+.logo
+  margin-right: auto
+  cursor: pointer
+
+.exitButton
+  box-sizing: content-box
+  padding: 5px
+  margin-right: 25px
+  cursor: pointer
+  &:hover
+    opacity: .5
+
+.avatar
+  height: 60px
+  width: 60px
+  border-radius: 50%
+  object-fit: contain
+
+
+@media (max-width: 959px)
+  .header
+    padding: 15px 20px
+  .burgerIcon
+    display: block
+  .logo
+    height: 40px
+  .avatar
+    height: 40px
+    width: 40px
+
+@media(max-width: 479px)
+  .exitButton
+    display: none
+  .avatar
+    display: none

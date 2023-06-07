@@ -1,0 +1,130 @@
+.aside
+  position: sticky
+  top: 90px
+  height: calc(100vh - 90px)
+  width: 320px
+  padding: 10px 0 28px
+  display: flex
+  flex-direction: column
+  background-color: var(--c-white)
+  box-shadow: 1px 0 6px rgba(57, 57, 57, .1)
+  overflow-y: auto
+  a
+    padding: 8px 0
+    display: flex
+    align-items: center
+    gap: 15px
+    font-weight: 600
+    font-size: 16px
+    line-height: 120%
+    transition: .2s
+    &:hover
+      opacity: .7
+
+.toHome
+  padding-bottom: 10px !important
+  margin: 0 20px 10px
+  border-bottom: 1px solid var(--c-separator)
+
+.mainNav
+  padding-bottom: 12px
+  margin: 0 20px 20px
+  border-bottom: 1px solid var(--c-separator)
+
+.subLinksBox
+  display: flex
+  flex-direction: column
+  gap: 12px
+  nav
+    cursor: pointer
+    &[data-open='true'] .subLinks
+      grid-template-rows: 1fr
+    &[data-open='true'] svg
+      transform: scaleY(1)
+
+.labelBox
+  padding: 0 20px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  p
+    font-weight: 700
+    font-size: 18px
+    line-height: 120%
+  svg
+    transition: .4s
+    transform: scaleY(-1)
+
+.subLinks
+  display: grid
+  grid-template-rows: 0fr
+  will-change: grid-template-rows
+  transition: .4s grid-template-rows ease-in-out
+  div
+    overflow: hidden
+    a
+      padding: 8px 40px
+      &:first-of-type
+        margin-top: 7px
+    img
+      height: 24px
+      width: 24px
+      object-fit: scale-down
+      object-position: center center
+
+.activeLink
+  background-color: var(--c-activeTab)
+  margin: 0 -20px
+  padding: 8px 60px !important
+  cursor: default
+  pointer-events: none
+
+.mobileItems
+  display: none
+  flex-direction: column
+  gap: 20px
+  padding-top: 30px
+  margin: 30px 20px 100px
+  border-top: 1px solid var(--c-separator)
+  & > p
+    display: flex
+    align-items: center
+    gap: 14px
+    font-weight: 600
+    font-size: 14px
+    line-height: 120%
+
+.exitButton
+  height: 24px
+  width: 24px
+
+.avatar
+  height: 40px
+  width: 40px
+  border-radius: 50%
+  object-fit: contain
+
+.bgMenu
+  position: absolute
+  inset: 0
+  z-index: 9998
+  display: none
+
+
+@media(max-width: 959px)
+  .aside
+    position: fixed
+    top: 70px
+    height: calc(100vh - 70px)
+    z-index: 9999
+    transform: translateX(-320px)
+    transition: .4s transform
+    will-change: transform
+  .asideShow
+    transform: translateX(0)
+    & + .bgMenu
+      display: block
+
+@media(max-width: 479px)
+  .mobileItems
+    display: flex
