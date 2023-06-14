@@ -11,6 +11,8 @@ import {DndContext} from '@dnd-kit/core'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
+import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
+import DateInput from '../../components/ui/DateInput/DateInput.jsx'
 
 
 const testData = [
@@ -64,27 +66,20 @@ const MainNews = () => {
             <Button className={ s.btn } add onClick={ ()=>setIsOpenAside(true) }>Добавить</Button>
 
 
-            <div className={ s.content }>
-                <div className={ s.listHeader }>
-                    <p className={ s.headerPhoto}>Фото</p>
-                    <p className={ s.headerTitle }>Наименование статьи</p>
-                    <p className={ s.headerDate }>Дата</p>
-                </div>
-                <ul className={ s.list }>
-                    <DndContext
-                        onDragEnd={ e => dndHandlers(e, list, setList) }
-                        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-                    >
-                        <SortableContext items={list} strategy={verticalListSortingStrategy}>
-                            {
-                                list.map( (item, i) =>
-                                    <NewsItem key={item.id} {...{item, i, setIsOpenAside}}/>
-                                )
-                            }
-                        </SortableContext>
-                    </DndContext>
-                </ul>
-            </div>
+            <ul className={ s.list }>
+                <DndContext
+                    onDragEnd={ e => dndHandlers(e, list, setList) }
+                    modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+                >
+                    <SortableContext items={list} strategy={verticalListSortingStrategy}>
+                        {
+                            list.map( (item, i) =>
+                                <NewsItem key={item.id} {...{item, i, setIsOpenAside}}/>
+                            )
+                        }
+                    </SortableContext>
+                </DndContext>
+            </ul>
 
         </section>
 
@@ -95,8 +90,11 @@ const MainNews = () => {
             <h1>Наименование статьи</h1>
             <TextInput label='Имя'/>
             <Separator className={ s.separator }/>
+            <h1>Описание статьи</h1>
+            <TextAreaInput minRows={2} label='Описание'/>
+            <Separator className={ s.separator }/>
             <h1>Изменить дату</h1>
-            <TextInput label='Дата'/>
+            <DateInput/>
             <Separator className={ s.separator }/>
             <div className={ s.buttons }>
                 <Button save onClick={()=>setIsOpenAside(false)}>Сохранить</Button>

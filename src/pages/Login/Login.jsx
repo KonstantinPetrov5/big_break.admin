@@ -2,10 +2,12 @@ import s from './Login.module.sass'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import logo from '../../../public/assets/icons/Logo.svg'
-import {useFormik} from 'formik'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import toast from 'react-hot-toast'
-import {loginValidation} from './validationSchema.js'
+import {useRecoilState} from 'recoil'
+import {userAtom} from '../../store/UserRecoil.js'
+import {useNavigate} from 'react-router-dom'
+import {axiosAuth} from '../../utils/axiosInstance.js'
 
 
 const Login = () => {
@@ -13,12 +15,18 @@ const Login = () => {
 
     const [btnLoading, setBtnLoading] = useState(false)
 
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    const { getFieldProps, handleSubmit, errors } = useFormik({
-        initialValues: { email: '', password: '' },
-        validationSchema: loginValidation,
-        onSubmit: data => submitHandler(data)
-    })
+
+    const [user, setUser] = useRecoilState(userAtom)
+
+    const navigate = useNavigate()
+
+    useEffect( () => {
+        if (user.token) navigate('/')
+    }, [user] )
+
 
     const toastHandler = err => {
         const { status } = err.response
@@ -26,28 +34,30 @@ const Login = () => {
         else toast.error('Произошла ошибка')
     }
 
-    const submitHandler = data => {
+    const submitHandler = e => {
+        e.preventDefault()
         setBtnLoading(true)
-        console.log('data: ', data)
-        // toastHandler(err)
-        setBtnLoading(false)
+        axiosAuth.post( '/login', { email, password } )
+            .then( ({data}) => setUser({ token: data.token }) )
+            .catch( toastHandler )
+            .finally( () => setBtnLoading(false) )
     }
 
 
     return (
 
-        <form onSubmit={handleSubmit} className={ s.container }>
+        <form onSubmit={ e => submitHandler(e) } className={ s.container }>
 
             <img src={ logo } alt='логотип'/>
             <TextInput
-                {...getFieldProps('email')}
-                error={errors}
+                value={email}
+                onChange={ e => setEmail(e.target.value) }
                 autoComplete='username'
                 label='Введите Email'
             />
             <TextInput
-                {...getFieldProps('password')}
-                error={errors}
+                value={password}
+                onChange={ e => setPassword(e.target.value) }
                 type='password'
                 autoComplete='current-password'
                 label='Введите пароль'

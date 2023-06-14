@@ -1,10 +1,10 @@
-
+import {useRecoilValue} from 'recoil'
+import {userAtom} from '../store/UserRecoil.js'
 
 
 export const useAuth = () => {
 
-    // const user = useRecoilValue(userAtom)
-    // return !!user.token
-    return true
+    const { token } = useRecoilValue(userAtom)
+    return !!token
 
 }

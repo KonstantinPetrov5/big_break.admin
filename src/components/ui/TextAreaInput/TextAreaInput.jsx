@@ -1,27 +1,17 @@
 import s from './TextAreaInput.module.sass'
 import TextareaAutosize from 'react-textarea-autosize'
-import ErrMessage from '../ErrMessage/ErrMessage.jsx'
 
 
-const TextAreaInput = ({ error, label, ...props }) => {
-
-
-    const currentErr = error?.[props.name]
+const TextAreaInput = ({ label, className, ...props }) => {
 
 
     return (
 
-        <div className={ `${s.container} ${props.className || ''}` }>
-
+        <div className={ `${s.container} ${className || ''}` }>
             {
-                !!label
-                && <label htmlFor={ props.name }>{ label }</label>
+                !!label && <label>{ label }</label>
             }
-
-            <TextareaAutosize { ...props } data-error={ !!currentErr }/>
-
-            <ErrMessage err={ currentErr }/>
-
+            <TextareaAutosize { ...props }/>
         </div>
 
     )

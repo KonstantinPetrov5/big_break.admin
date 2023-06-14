@@ -1,27 +1,19 @@
 import s from './TextInput.module.sass'
-import ErrMessage from '../ErrMessage/ErrMessage.jsx'
 
 
-const TextInput = ({ error, label, ...props }) => {
-
-
-    const currentErr = error?.[props.name]
+const TextInput = ({ label, className, ...props }) => {
 
 
     return (
 
-        <div className={ s.container }>
 
+        <div className={ `${s.container} ${className || ''}` }>
             {
-                !!label
-                && <label htmlFor={ props.name }>{ label }</label>
+                !!label && <label>{ label }</label>
             }
-
-            <input { ...props } data-error={ !!currentErr }/>
-
-            <ErrMessage err={ currentErr }/>
-
+            <input { ...props }/>
         </div>
+
 
     )
 }

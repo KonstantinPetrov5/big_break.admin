@@ -11,7 +11,7 @@ export const dndHandlers = (e, list, setList) => {
 
 export const dndStyle = ({ transform, transition, isDragging }) => (
     {
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
         zIndex: isDragging ? 2 : 1,
         cursor: isDragging ? 'grabbing' : 'grab',
@@ -21,7 +21,7 @@ export const dndStyle = ({ transform, transition, isDragging }) => (
 
 export const dndStyleContainer = ({ transform, transition, isDragging }) => (
     {
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
         zIndex: isDragging ? 2 : 1,
     }

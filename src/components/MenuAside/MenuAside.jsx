@@ -2,17 +2,15 @@ import s from './MenuAside.module.sass'
 import {Link, NavLink, useLocation} from 'react-router-dom'
 import {subLinksData} from './subLinksData.js'
 import {useEffect, useRef, useState} from 'react'
-import {MenuIcon} from '../../../public/assets/jsxIcons/MenuIcon.jsx'
-import {SettingsIcon} from '../../../public/assets/jsxIcons/SettingsIcon.jsx'
 import {ChevronUp} from '../../../public/assets/jsxIcons/ChevronUp.jsx'
-import {useDispatch, useSelector} from 'react-redux'
 import {HomeIcon} from '../../../public/assets/jsxIcons/HomeIcon.jsx'
 import {CSSTransition} from 'react-transition-group'
 import {useClickOutside} from '../../hooks/useClickOutside.js'
-import {setMenu} from '../../store/menuSlice.js'
 import {ExitIcon} from '../../../public/assets/jsxIcons/ExitIcon.jsx'
-import defaultAvatar from '../../../public/assets/images/defaultAvatar.jpeg'
 import {lockScrollHandler} from '../../utils/lockScroll.js'
+import {burgerAtom} from '../../store/BurgerRecoil.js'
+import {useRecoilState} from 'recoil'
+import {logoutHandler} from '../../utils/logoutHandler.js'
 
 
 const MenuAside = () => {
@@ -22,11 +20,10 @@ const MenuAside = () => {
     
     const { pathname } = useLocation()
 
-    const dispatch = useDispatch()
-    const { menuIsOpen } = useSelector( state => state.menu )
+    const [menuIsOpen, setMenuIsOpen] = useRecoilState(burgerAtom)
 
     const asideRef = useRef(null)
-    useClickOutside(asideRef.current, menuIsOpen, ()=>dispatch(setMenu(false)))
+    useClickOutside(asideRef.current, menuIsOpen, ()=>setMenuIsOpen(false))
 
     useEffect( () => {
         sessionStorage.setItem('openMenuItem', openItem)
@@ -34,7 +31,7 @@ const MenuAside = () => {
     }, [openItem] )
 
     useEffect( () => {
-        if (menuIsOpen) dispatch(setMenu(false))
+        if (menuIsOpen) setMenuIsOpen(false)
         // закрываем меню если изменился роут
     }, [pathname] )
 
@@ -57,12 +54,7 @@ const MenuAside = () => {
             <>
                 <aside ref={asideRef} className={ s.aside }>
 
-                    <Link to={'/'} className={ s.toHome }><HomeIcon/>На главную</Link>
-
-                    <nav className={ s.mainNav }>
-                        <NavLink to=''><MenuIcon/>Меню</NavLink>
-                        <NavLink to=''><SettingsIcon/>Настройки</NavLink>
-                    </nav>
+                    <Link to={'/main/banner'} className={ s.toHome }><HomeIcon/>На главную</Link>
 
                     <div className={ s.subLinksBox }>
                         {
@@ -90,11 +82,7 @@ const MenuAside = () => {
                     </div>
 
                     <div className={ s.mobileItems }>
-                        <p>
-                            <img className={ s.avatar } src={ defaultAvatar } alt='аватар'/>
-                            Станислав Иванов
-                        </p>
-                        <p onClick={ ()=>console.log('exitHandler') }>
+                        <p onClick={ logoutHandler }>
                             <ExitIcon className={ s.exitButton }/>
                             Выход
                         </p>

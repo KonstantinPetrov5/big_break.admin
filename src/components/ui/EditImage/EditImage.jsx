@@ -4,12 +4,12 @@ import {EditIcon} from '../../../../public/assets/jsxIcons/EditIcon.jsx'
 import {AddIcon} from '../../../../public/assets/jsxIcons/AddIcon.jsx'
 
 
-const EditImage = ({ image, onEdit, onRemove, ...props}) => {
+const EditImage = ({ image, onEdit, onRemove, className }) => {
 
 
     return (
 
-        <div className={ `${s.container} ${props.className || ''}` }>
+        <div className={ `${s.container} ${className || ''}` }>
 
             <div className={ s.image } data-empty={!image} onClick={onEdit}>
                 <AddIcon/>

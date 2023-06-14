@@ -1,5 +1,5 @@
 import s from './MainMore.module.sass'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
 import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 import EditImage from '../../components/ui/EditImage/EditImage.jsx'
@@ -7,58 +7,115 @@ import Button from '../../components/ui/Button/Button.jsx'
 import EditAside from '../../components/EditAside/EditAside.jsx'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
-import {useFormik} from 'formik'
-import {MainMoreValidation} from './validationSchema.js'
-import {MainMoreDefaultValue} from './data.js'
-import tickerLogoTest from '../../../public/assets/images/tickerLogoTest.jpg'
+import {axiosAuth} from '../../utils/axiosInstance.js'
+import toast from 'react-hot-toast'
 
 
 const MainMore = () => {
 
-    const [initialValues, setInitialValues] = useState(MainMoreDefaultValue)
+
     const [isOpenAside, setIsOpenAside] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [btnLoading, setBtnLoading] = useState(false)
 
+    const [loadedImg, setLoadedImg] = useState('')
 
-    const { getFieldProps, setFieldValue, errors, handleSubmit } = useFormik({
-        initialValues,
-        // enableReinitialize: true,
-        validationSchema: MainMoreValidation,
-        validateOnBlur: false,
-        onSubmit: data => console.log('onSubmit: ', data)
-    })
+    const [title, setTitle] = useState('')
+    const [desc, setDesc] = useState('')
+    const [btn, setBtn] = useState('')
+    const [img, setImg] = useState('')
 
+
+    useEffect( () => {
+        setLoadedImg('')
+    }, [isOpenAside] )
+
+    useEffect( () => {
+        axiosAuth('/home/about')
+            .then(({data})=> {
+                console.log('data: ', data)
+                // setTitle(data.title || '')
+                // setDesc(data.description || '')
+                // setImg(data.cut_image || '')
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setIsLoading(false))
+    }, [] )
+
+
+    const submitHandler = () => {
+        // setBtnLoading(true)
+        //
+        // const queryData = {
+        //     type: 'home',
+        //     title: title || null,
+        //     description: desc || null,
+        //     button: button || null,
+        //     is_background: switchPos==='bg',
+        //     cut_image: img || null,
+        //     background_image: bg || null
+        // }
+        // axiosAuth.put('/banner/update', queryData)
+        //     .then(()=>toast.success('Данные сохранены'))
+        //     .catch(()=>toast.error('Произошла ошибка'))
+        //     .finally(()=>setBtnLoading(false))
+
+    }
+
+    const imgHandler = type => {
+        if (type==='save') setImg(loadedImg)
+        setIsOpenAside(false)
+    }
+
+
+    if (isLoading) return <h1>Загрузка...</h1>
     return <>
 
-        <form className={ s.container } onSubmit={ handleSubmit }>
+        <container className={ s.container } >
 
             <h1>Подробнее о конкурсе</h1>
 
-            <TextInput {...getFieldProps('title')} label='Заголовок'/>
+            <TextInput value={title} onChange={e=>setTitle(e.target.value)} label='Заголовок'/>
 
-            <TextAreaInput {...getFieldProps('desc')} className={ s.desc } label='Description' minRows={2}/>
+            <TextAreaInput
+                className={ s.desc }
+                value={desc}
+                onChange={e=>setDesc(e.target.value)}
+                label='Description'
+                minRows={2}
+            />
 
-            <TextInput {...getFieldProps('button')} label='Кнопка'/>
+            <TextInput value={btn} onChange={e=>setBtn(e.target.value)} label='Кнопка'/>
 
             <h2 className={ s.LoadTitle }>Загрузка изображения</h2>
 
             <EditImage
-                image={tickerLogoTest}
+                image={ img }
                 className={ s.image }
                 onEdit={()=>setIsOpenAside(true)}
+                onRemove={ ()=>setImg('') }
             />
 
-            <Button save>Сохранить</Button>
+            <Button
+                save
+                isLoading={btnLoading}
+                onClick={()=>submitHandler}
+            >
+                Сохранить
+            </Button>
 
-        </form>
+        </container>
 
         <EditAside state={isOpenAside} setState={setIsOpenAside} title='Добавить фото'>
-            <FileInput label='Загрузка изображения' />
+            <FileInput
+                label='Загрузка изображения'
+                value={ loadedImg }
+                setValue={ setLoadedImg }
+            />
             <Separator className={ s.separator }/>
             <div className={ s.buttons }>
-                <Button save onClick={()=>setIsOpenAside(false)}>Сохранить</Button>
-                <Button typeUI='border' onClick={()=>setIsOpenAside(false)}>Отменить</Button>
+                <Button save onClick={()=>imgHandler('save')}>Сохранить</Button>
+                <Button typeUI='border' onClick={()=>imgHandler('cancel')}>Отменить</Button>
             </div>
         </EditAside>
 

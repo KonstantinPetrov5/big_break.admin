@@ -6,10 +6,7 @@ import Button from '../Button/Button.jsx'
 import {useState} from 'react'
 
 
-const FileInput = ({ label }) => {
-
-
-    const [acceptImages, setAcceptImages] = useState('')
+const FileInput = ({ label, value, setValue}) => {
 
 
     const {getRootProps, getInputProps, open } = useDropzone({
@@ -26,7 +23,7 @@ const FileInput = ({ label }) => {
     const onDropHandler = files => {
         const file = files[0]
         getBase64(file)
-            .then(res => setAcceptImages(res) )
+            .then(res => setValue(res) )
             .catch(()=>toast.error('Произошла ошибка при загрузке изображения'))
     }
 
@@ -49,7 +46,7 @@ const FileInput = ({ label }) => {
 
             <div className={ s.fileInput }>
                 {
-                    !acceptImages
+                    !value
                     ?
                     <>
                         <UploadFileIcon/>
@@ -61,7 +58,7 @@ const FileInput = ({ label }) => {
                     </>
                     :
                     <>
-                        <img className={ s.acceptImage } src={acceptImages} alt='Загруженное изображение'/>
+                        <img className={ s.acceptImage } src={value} alt='Загруженное изображение'/>
                         <Button className={ s.button } onClick={ open }>Заменить файл</Button>
                     </>
                 }

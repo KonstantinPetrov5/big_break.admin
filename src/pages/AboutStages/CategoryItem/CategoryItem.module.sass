@@ -1,0 +1,33 @@
+.label
+  width: 100%
+  color: #333333
+  text-align: center
+  border-radius: 10px
+  padding: 13px 5px
+  display: flex
+  align-items: center
+[data-checked=false]
+  cursor: pointer
+  transition: .1s
+  &:hover
+    background-color: rgba(0, 25, 65, .03)
+[data-checked=true]
+  background-color: var(--c-white)
+  box-shadow: 0 2px 5px rgba(#000, .07)
+
+.label
+  input
+    display: none
+  svg
+    padding: 0 10px
+    cursor: pointer
+    box-sizing: content-box
+    min-height: 24px
+    min-width: 24px
+    &:hover
+      opacity: .7
+  p
+    margin-left: auto
+    user-select: none
+  .editIcon
+    margin-left: auto

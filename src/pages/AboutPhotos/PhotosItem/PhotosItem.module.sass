@@ -1,0 +1,48 @@
+.item
+  position: relative
+  z-index: 1
+  display: flex
+  align-items: center
+  background-color: var(--c-white)
+  padding: 0 20px
+  height: 90px
+  border-bottom: #F5F5F5 solid 1px
+  transition: background-color .2s
+  &:last-of-type
+    border-bottom: none
+  //&:hover
+  //  background-color: #FBFBFB
+  span
+    margin-right: 25px
+    width: 8px
+    color: #000
+    opacity: .5
+    user-select: none
+  svg
+    padding: 10px
+    box-sizing: content-box
+    cursor: pointer
+    &:hover
+      opacity: .7
+
+.img
+  position: relative
+  margin: 0 auto
+  height: 70px
+  width: 90px
+  min-width: 90px
+  background-color: #D9D9D9
+  border-radius: 5px
+  overflow: hidden
+  img
+    height: 100%
+    width: 100%
+    object-fit: cover
+  svg
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    cursor: default
+    &:hover
+      opacity: 1

@@ -24,7 +24,7 @@ const NewsItem = ({item, i, setIsOpenAside}) => {
     return (
         
             <li className={ s.item } style={ dndStyleContainer(sortable) } ref={ setNodeRef }>
-                <Separator className={ s.separator }/>
+                { i!==0 && <Separator className={ s.separator }/> }
                 <span>{ i+1 }</span>
                 <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
                 <img src={ image } alt='логотип'/>

@@ -2,10 +2,15 @@ import s from './Layout.module.sass'
 import {Outlet} from 'react-router-dom'
 import Header from '../../components/Header/Header.jsx'
 import MenuAside from '../../components/MenuAside/MenuAside.jsx'
+import {useCheckAuth} from '../../hooks/useCheckAuth.js'
+import {useRedirect} from '../../hooks/useRedirect.js'
 
 
 const Layout = () => {
 
+
+    useCheckAuth()
+    useRedirect()
 
     return <>
 

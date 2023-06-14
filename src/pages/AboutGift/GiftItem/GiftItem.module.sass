@@ -1,0 +1,41 @@
+.item
+  position: relative
+  display: flex
+  align-items: center
+  height: 75px
+  padding: 0 10px 0 20px
+  background-color: var(--c-white)
+  span
+    margin-right: 10px
+    min-width: 8px
+    color: #000
+    opacity: .5
+    user-select: none
+  svg
+    padding: 10px
+    cursor: pointer
+    box-sizing: content-box
+    min-height: 24px
+    min-width: 24px
+    &:hover
+      opacity: .7
+
+
+.title
+  margin: 0 auto
+  width: 100%
+  max-width: 250px
+  font-weight: 700
+  font-size: 14px
+  line-height: 140%
+  overflow: hidden
+  text-overflow: ellipsis
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
+
+.separator
+  position: absolute
+  top: 0
+  left: 0
+  right: 0

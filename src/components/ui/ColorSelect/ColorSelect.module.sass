@@ -1,0 +1,40 @@
+.container
+  display: flex
+  gap: 10px
+  width: 260px
+  padding: 10px
+  background: #F9F9F9
+  border-radius: 2px
+
+.colorBox
+  position: relative
+  height: 40px
+  width: 40px
+  min-width: 40px
+  border-radius: 5px
+  cursor: pointer
+  &[data-select=true]
+    cursor: default
+    &:hover
+      filter: brightness(1)
+    &::before
+      content: ''
+      position: absolute
+      top: -4px
+      left: -4px
+      height: 44px
+      width: 44px
+      border: 2px solid rgba(83, 74, 74, 0.7)
+      border-radius: 7px
+  &[data-color="#4B21B1"] //violet
+    background: linear-gradient(241deg, #4B21B1 24.29%, #7C46FF 100%, #7C46FF 100%)
+  &[data-color="#EA3352"] //red
+    background: linear-gradient(241deg, #EA3352 24.29%, #EB4D76 100%)
+  &[data-color="#ED6E42"] //orange
+    background: linear-gradient(241deg, #ED6E42 24.29%, #ED906D 100%)
+  &[data-color="#F6C54E"] //yellow
+    background: linear-gradient(241deg, #F6C54E 24.29%, #F8D982 100%)
+  &[data-color="#24B121"] //green
+    background: linear-gradient(241deg, #24B121 24.29%, #24B121 100%)
+  &:hover
+    filter: brightness(1.1)

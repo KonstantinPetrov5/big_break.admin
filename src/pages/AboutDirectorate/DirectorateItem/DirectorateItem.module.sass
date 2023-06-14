@@ -1,0 +1,107 @@
+.item
+  position: relative
+  background-color: var(--c-white)
+  svg
+    padding: 10px
+    cursor: pointer
+    box-sizing: content-box
+    min-height: 24px
+    min-width: 24px
+    &:hover
+      opacity: .7
+
+.top
+  display: grid
+  grid-template-columns: auto 1fr auto
+  align-items: center
+  height: 75px
+  padding: 0 10px 0 20px
+  &>div
+    display: flex
+    align-items: center
+  span
+    margin-right: 10px
+    min-width: 8px
+    color: #000
+    opacity: .5
+    user-select: none
+
+.itemTitle
+  margin: 0 auto 0 10px
+  width: 100%
+  font-weight: 700
+  overflow: hidden
+  text-overflow: ellipsis
+  display: -webkit-box
+  -webkit-line-clamp: 3
+  -webkit-box-orient: vertical
+
+.arrow
+  transform: rotate(0)
+  transition: .3s
+  &[data-active=true]
+    transform: rotate(90deg)
+
+.separator
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+
+
+.bottom
+  position: relative
+  display: grid
+  grid-template-rows: 0fr
+  will-change: grid-template-rows
+  transition: .4s grid-template-rows ease-in-out
+  &>div
+    overflow: hidden
+    &>div
+      padding: 28px 40px
+  &[data-open='true']
+    grid-template-rows: 1fr
+  button
+    max-width: 300px
+
+
+.membersList
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 30px 40px
+  margin-bottom: 20px
+
+.memberItem
+  display: flex
+  align-items: center
+
+.img
+  height: 80px
+  width: 80px
+  min-width: 80px
+  background-color: #D9D9D9
+  border-radius: 50%
+  overflow: hidden
+  img
+    height: 100%
+    width: 100%
+    object-fit: cover
+
+.title
+  margin: 0 auto 0 20px
+  max-width: 130px
+  font-weight: 700
+  font-size: 14px
+  line-height: 140%
+  text-overflow: ellipsis
+  overflow: hidden
+
+@media (max-width: 1200px)
+  .membersList
+    grid-template-columns: minmax(0, 375px)
+
+@media (max-width: 479px)
+  .bottom>div>div
+    padding: 20px 0 20px 10px
+  .membersList
+    gap: 20px

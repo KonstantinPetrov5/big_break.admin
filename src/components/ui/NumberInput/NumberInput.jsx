@@ -1,12 +1,9 @@
 import s from './NumberInput.module.sass'
-import ErrMessage from '../ErrMessage/ErrMessage.jsx'
 import {NumericFormat} from 'react-number-format'
 
 
-const NumberInput = ({ error, label, setFieldValue, decimalScale=0, min, max, ...props }) => {
+const NumberInput = ({ value, onChange, label, decimalScale=0, min, max }) => {
 
-
-    const currentErr = error?.[props.name]
 
     const allowedHandler = ({ formattedValue, floatValue }) => {
         if (max) return formattedValue === "" || floatValue >= 0 && floatValue <= max
@@ -21,19 +18,17 @@ const NumberInput = ({ error, label, setFieldValue, decimalScale=0, min, max, ..
 
             {
                 !!label
-                && <label htmlFor={ props.name }>{ label }</label>
+                && <label>{ label }</label>
             }
 
             <NumericFormat
-                {...props}
+                value={value}
                 allowNegative={ false }
                 decimalScale={ decimalScale }
                 isAllowed={ allowedHandler }
-                onValueChange={ ({ floatValue }) => setFieldValue(props.name, floatValue || null) }
+                onValueChange={ ({ floatValue }) => onChange(floatValue || null) }
                 onChange={()=>null} // reset formik onChange
             />
-
-            <ErrMessage err={ currentErr }/>
 
         </div>
 

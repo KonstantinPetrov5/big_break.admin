@@ -1,30 +1,26 @@
 import s from './SwitchInput.module.sass'
 
 
-const SwitchInput = ({ tabs, ...props }) => {
+const SwitchInput = ({ tabs, name, className, value, onChange }) => {
     
     return (
 
-        <div className={ `${s.container} ${props.className || ''}` }>
-                {
-                    tabs.map( ({ label, value }) =>
-                        <label
-                            key={ value }
-                            className={ props.value === value ? s.checked : s.label }
-                            htmlFor={ value }
-                        >
-                            { label }
-                            <input
-                                type='radio'
-                                name={ props.name }
-                                id={ value }
-                                value={ value }
-                                onChange={ props.onChange }
-                            />
-                        </label>
-                    )
-                }
-            </div>
+        <div className={ `${s.container} ${className || ''}` }>
+            {
+                tabs.map( tab =>
+                    <label key={ tab.value } className={ value === tab.value ? s.checked : s.label }>
+                        { tab.label }
+                        <input
+                            type='radio'
+                            id={ tab.value }
+                            value={ tab.value }
+                            name={name}
+                            onChange={ onChange }
+                        />
+                    </label>
+                )
+            }
+        </div>
 
     )
 }

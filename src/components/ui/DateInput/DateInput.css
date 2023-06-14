@@ -1,0 +1,11 @@
+.rdp {
+  margin: 0 !important;
+}
+
+.rdp-day_selected {
+  background-color: #FF002E !important;
+}
+
+.rdp-button:not(.rdp-day_selected):hover {
+  background-color: rgba(255, 0, 46, .2) !important;
+}
