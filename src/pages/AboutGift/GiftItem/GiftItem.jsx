@@ -7,7 +7,7 @@ import {EditIcon} from '../../../../public/assets/jsxIcons/EditIcon.jsx'
 import {TrashIcon} from '../../../../public/assets/jsxIcons/TrashIcon.jsx'
 
 
-const GiftItem = ({item, i, setIsOpenAside}) => {
+const GiftItem = ({item, i, editHandler, deleteHandler}) => {
 
 
     const {id, title} = item
@@ -16,10 +16,6 @@ const GiftItem = ({item, i, setIsOpenAside}) => {
     const {setNodeRef, listeners} = sortable
 
 
-    const deleteHandler = () => {
-        console.log('delete: ', id)
-    }
-
     return (
 
         <li className={ s.item } style={ dndStyleContainer(sortable) } ref={ setNodeRef }>
@@ -27,8 +23,8 @@ const GiftItem = ({item, i, setIsOpenAside}) => {
             <span>{ i+1 }</span>
             <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
             <p className={ s.title }>{ title }</p>
-            <EditIcon onClick={()=>setIsOpenAside(true)}/>
-            <TrashIcon onClick={ ()=>deleteHandler() }/>
+            <EditIcon onClick={()=>editHandler(id)}/>
+            <TrashIcon onClick={ ()=>deleteHandler(id) }/>
         </li>
 
     )

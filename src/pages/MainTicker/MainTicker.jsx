@@ -68,8 +68,6 @@ const MainTicker = () => {
     const saveNewPosition = e => {
         const id = e.active.id
         const new_position = e.over.data.current.sortable.index + 1
-        console.log('id: ', id)
-        console.log('new_position: ', new_position)
         axiosAuth.post('/runline/position', { id, new_position })
             .then( () => toast.success('Данные сохранены') )
             .catch(()=>toast.error('Произошла ошибка'))

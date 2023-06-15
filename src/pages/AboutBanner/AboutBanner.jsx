@@ -23,7 +23,7 @@ const AboutBanner = () => {
 
 
     const [isOpenAside, setIsOpenAside] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [btnLoading, setBtnLoading] = useState(false)
 
     const [switchPos, setSwitchPos] = useState(switchData[0].value)

@@ -7,17 +7,12 @@ import {PlayIcon} from '../../../../public/assets/jsxIcons/PlayIcon.jsx'
 
 
 
-const PhotosItem = ({item, i}) => {
+const PhotosItem = ({item, i, deleteHandler}) => {
 
-    const {id, img, link} = item
+    const {id, image, type} = item
 
     const sortable = useSortable({ id })
     const {setNodeRef, listeners} = sortable
-
-
-    const deleteHandler = () => {
-        console.log('delete: ', item.id)
-    }
 
 
     return (
@@ -26,8 +21,8 @@ const PhotosItem = ({item, i}) => {
             <span>{ i+1 }</span>
             <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
             <div className={ s.img }>
-                { !!link && <PlayIcon/> }
-                { !!img && <img src={img} alt='photo'/> }
+                { type==='video' && <PlayIcon/> }
+                { !!image && <img src={image} alt='photo'/> }
             </div>
             <TrashIcon onClick={ ()=>deleteHandler() }/>
         </li>

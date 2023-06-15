@@ -14,6 +14,9 @@ import Separator from '../../components/ui/Separator/Separator.jsx'
 import ColorSelect from '../../components/ui/ColorSelect/ColorSelect.jsx'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
 import DateInput from '../../components/ui/DateInput/DateInput.jsx'
+import {axiosAuth} from '../../utils/axiosInstance.js'
+import toast from 'react-hot-toast'
+import {getUnixTime, startOfToday} from 'date-fns'
 
 
 const testData = [
@@ -112,6 +115,18 @@ const testData = [
 ]
 
 
+const defaultDataCategory = {
+    title: '',
+    color: '#4B21B1',
+}
+const defaultDataStages = {
+    title: '',
+    description: '',
+    date_from: getUnixTime(startOfToday()),
+    date_to: getUnixTime(startOfToday()),
+}
+
+
 const AboutStages = () => {
 
 
@@ -123,7 +138,10 @@ const AboutStages = () => {
     const [categoryList, setCategoryList] = useState(testData)
     const [activeTab, setActiveTab] = useState(categoryList[0].category)
     const [stagesList, setStagesList] = useState(categoryList.find(obj=>obj.category===activeTab).stages)
-    const [subTitle, setSubTitle] = useState('')
+    const [description, setDescription] = useState('')
+
+    const [editData, setEditData] = useState(defaultDataCategory)
+    const [isNew, setIsNew] = useState(true)
 
 
     useEffect( () => {
@@ -141,19 +159,69 @@ const AboutStages = () => {
         setCategoryList(newList)
     }, [stagesList] )
 
+    useEffect( () => {
+        axiosAuth('/about/steps')
+            .then( ({data}) => {
+                console.log('data: ', data)
+                // setDescription(data.description)
+                // setList(data.items)
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setIsLoading(false))
+    }, [] )
 
+
+    const saveDescHandler = () => {
+        // axiosAuth.put('/about/participants/desc', { description })
+        //     .then(()=> {
+        //         const newList = list.map( obj => obj.id===editData.id ? editData : obj )
+        //         setList(newList)
+        //         toast.success('Данные сохранены')
+        //     })
+        //     .catch(()=>toast.error('Произошла ошибка'))
+        //     .finally(()=>setBtnLoadSubtitle(false))
+    }
+
+    const addHandler = type => {
+        setIsNew(true)
+        if (type==='category') {
+            setEditData(defaultDataCategory)
+            setIsOpenAsideCategory(true)
+        }
+        if (type==='stages') {
+            setEditData(defaultDataStages)
+            setIsOpenAsideStages(true)
+        }
+    }
+
+    const editHandler = (id, type) => {
+        setIsNew(false)
+        if (type==='category') {
+            setEditData(list.find(obj=>obj.id===id))
+            setIsOpenAsideCategory(true)
+        }
+        if (type==='stages') {
+            setIsOpenAsideStages(true)
+        }
+    }
+
+
+
+    if (isLoading) return <h1>Загрузка...</h1>
     return <>
 
         <h1>Этапы конкурса</h1>
 
         <TextAreaInput
             className={ s.subtitle }
-            value={subTitle}
-            onChange={e=>setSubTitle(e.target.value)}
+            value={description}
+            onChange={e=>setDescription(e.target.value)}
             label='Подзаголовок'
             placeholder='Введите текст'
             minRows={6}
         />
+
+        <Button className={ s.saveBtn } save>Сохранить</Button>
 
         <Button add className={ s.addCatBtn }>Добавить Категорию</Button>
 
@@ -189,27 +257,6 @@ const AboutStages = () => {
             </DndContext>
         </ul>
 
-        <Button className={ s.saveBtn } save>Сохранить</Button>
-
-
-        <EditAside state={isOpenAsideStages} setState={setIsOpenAsideStages} title='Изменить название этапа'>
-            <TextInput label={'Этап'}/>
-            <Separator className={ s.separator }/>
-            <h1>Изменить описание</h1>
-            <TextInput label={'Описание'}/>
-            <Separator className={ s.separator }/>
-            <h1>Изменить дату</h1>
-            <div className={ s.dateBox }>
-                <div><h2>От</h2><DateInput/></div>
-                <div><h2>До</h2><DateInput/></div>
-            </div>
-            <Separator className={ s.separator }/>
-            <div className={ s.buttons }>
-                <Button save>Сохранить</Button>
-                <Button typeUI='border'>Отменить</Button>
-            </div>
-        </EditAside>
-
 
         <EditAside state={isOpenAsideCategory} setState={setIsOpenAsideCategory} title='Изменить название категории'>
             <TextInput label={'Категория'}/>
@@ -222,6 +269,31 @@ const AboutStages = () => {
                 <Button typeUI='border'>Отменить</Button>
             </div>
         </EditAside>
+
+        <EditAside state={isOpenAsideStages} setState={setIsOpenAsideStages} title='Изменить название этапа'>
+            <TextInput label={'Этап'}/>
+            <Separator className={ s.separator }/>
+            <h1>Изменить описание</h1>
+            <TextInput label={'Описание'}/>
+            <Separator className={ s.separator }/>
+            <h1>Изменить дату</h1>
+            <div className={ s.dateBox }>
+                <div>
+                    <h2>От</h2>
+                    <DateInput/>
+                </div>
+                <div>
+                    <h2>До</h2>
+                    <DateInput/>
+                </div>
+            </div>
+            <Separator className={ s.separator }/>
+            <div className={ s.buttons }>
+                <Button save>Сохранить</Button>
+                <Button typeUI='border'>Отменить</Button>
+            </div>
+        </EditAside>
+
     </>
 }
 

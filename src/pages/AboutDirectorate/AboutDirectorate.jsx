@@ -48,6 +48,7 @@ const AboutDirectorate = () => {
     const [subTitle, setSubTitle] = useState('')
 
 
+    if (isLoading) return <h1>Загрузка...</h1>
     return <>
 
         <h1>Детская дирекция</h1>

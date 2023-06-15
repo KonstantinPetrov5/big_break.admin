@@ -16,8 +16,8 @@ const SelectInput = ({ options, value, onChange, label }) => {
 
             <Select
                 options={ options }
-                value={ options.find(item => item.value===value) }
-                onChange={ ({v}) => onChange(v) }
+                value={ options.find(item => item.label===value) }
+                onChange={ e => onChange(e.label) }
                 unstyled
                 classNamePrefix='select'
                 isSearchable={false}

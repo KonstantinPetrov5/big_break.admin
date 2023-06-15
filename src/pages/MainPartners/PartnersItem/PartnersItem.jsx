@@ -7,18 +7,13 @@ import {EditIcon} from '../../../../public/assets/jsxIcons/EditIcon.jsx'
 import {TrashIcon} from '../../../../public/assets/jsxIcons/TrashIcon.jsx'
 
 
-const PartnersItem = ({item, i, setIsOpenAside}) => {
+const PartnersItem = ({item, i, editHandler, deleteHandler}) => {
 
 
-    const {id, image, title} = item
+    const {id, image, description} = item
 
     const sortable = useSortable({ id })
     const {setNodeRef, listeners} = sortable
-
-
-    const deleteHandler = () => {
-        console.log('delete: ', id)
-    }
 
 
     return (
@@ -30,9 +25,9 @@ const PartnersItem = ({item, i, setIsOpenAside}) => {
             <div className={ s.logoBox }>
                 <img src={ image } alt='логотип'/>
             </div>
-            <p className={ s.title }>{ title }</p>
-            <EditIcon className={ s.editIcon } onClick={()=>setIsOpenAside(true)}/>
-            <TrashIcon onClick={ ()=>deleteHandler() }/>
+            <p className={ s.title }>{ description }</p>
+            <EditIcon className={ s.editIcon } onClick={()=>editHandler(id)}/>
+            <TrashIcon onClick={ ()=>deleteHandler(id) }/>
         </li>
 
     )

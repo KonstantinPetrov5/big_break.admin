@@ -8,17 +8,12 @@ import {useSortable} from '@dnd-kit/sortable'
 import {dndStyleContainer, dndStyleItem} from '../../../utils/dndHandlers.js'
 
 
-const NewsItem = ({item, i, setIsOpenAside}) => {
+const NewsItem = ({item, i, editHandler, deleteHandler}) => {
 
     const {id, image, title, date} = item
 
     const sortable = useSortable({ id })
     const {setNodeRef, listeners} = sortable
-
-
-    const deleteHandler = () => {
-        console.log('delete: ', id)
-    }
 
 
     return (
@@ -30,8 +25,8 @@ const NewsItem = ({item, i, setIsOpenAside}) => {
                 <img src={ image } alt='логотип'/>
                 <p className={ s.title }>{ title }</p>
                 <p className={ s.date }>{ formatUnixDate(date) }</p>
-                <EditIcon className={ s.editIcon } onClick={()=>setIsOpenAside(true)}/>
-                <TrashIcon onClick={ ()=>deleteHandler() }/>
+                <EditIcon className={ s.editIcon } onClick={()=>editHandler(id)}/>
+                <TrashIcon onClick={ ()=>deleteHandler(id) }/>
             </li>
 
     )

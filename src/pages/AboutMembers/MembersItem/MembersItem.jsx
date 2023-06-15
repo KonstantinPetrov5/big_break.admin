@@ -7,18 +7,14 @@ import {EditIcon} from '../../../../public/assets/jsxIcons/EditIcon.jsx'
 import {TrashIcon} from '../../../../public/assets/jsxIcons/TrashIcon.jsx'
 
 
-const MembersItem = ({item, i, setIsOpenAside}) => {
+const MembersItem = ({item, i, editHandler, deleteHandler}) => {
 
 
-    const {id, icon, title, desc} = item
+    const {id, image, title, description} = item
 
     const sortable = useSortable({ id })
     const {setNodeRef, listeners} = sortable
 
-
-    const deleteHandler = () => {
-        console.log('delete: ', id)
-    }
 
     return (
 
@@ -27,12 +23,12 @@ const MembersItem = ({item, i, setIsOpenAside}) => {
             <span>{ i+1 }</span>
             <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
             <div className={ s.icon }>
-                { icon && <img src={icon} alt='icon'/> }
+                { image && <img src={image} alt='icon'/> }
             </div>
             <p className={ s.title }>{ title }</p>
-            <p className={ s.desc }>{ desc }</p>
-            <EditIcon className={ s.editIcon } onClick={()=>setIsOpenAside(true)}/>
-            <TrashIcon onClick={ ()=>deleteHandler() }/>
+            <p className={ s.desc }>{ description }</p>
+            <EditIcon className={ s.editIcon } onClick={()=>editHandler(id)}/>
+            <TrashIcon onClick={ ()=>deleteHandler(id) }/>
         </li>
 
     )

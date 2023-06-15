@@ -1,5 +1,5 @@
 import s from './AboutPhotos.module.sass'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Button from '../../components/ui/Button/Button.jsx'
 import {DndContext} from '@dnd-kit/core'
 import {dndHandlers} from '../../utils/dndHandlers.js'
@@ -10,39 +10,95 @@ import EditAside from '../../components/EditAside/EditAside.jsx'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
+import {axiosAuth} from '../../utils/axiosInstance.js'
+import toast from 'react-hot-toast'
 
 
-const testData = [
-    { id: 1, img: '', link: '' },
-    { id: 2, img: '', link: '' },
-    { id: 3, img: '', link: '' },
-    { id: 4, img: '', link: '' },
-]
+const defaultData = {
+    image: '',
+    video: ''
+}
 
 
 const AboutPhotos = () => {
 
 
     const [isOpenAside, setIsOpenAside] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [btnLoading, setBtnLoading] = useState(false)
 
-    const [list, setList] = useState(testData)
+    const [list, setList] = useState([])
+
+    const [editData, setEditData] = useState({})
+    const [type, setType] = useState('photo') // video
 
 
+    useEffect( () => {
+        axiosAuth('/about/gallery')
+            .then(({data})=> setList(data.items))
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setIsLoading(false))
+    }, [] )
+
+
+    const addPhotoHandler = () => {
+        setEditData(defaultData)
+        setType('photo')
+        setIsOpenAside(true)
+    }
+
+    const addVideoHandler = () => {
+        setEditData(defaultData)
+        setType('video')
+        setIsOpenAside(true)
+    }
+
+    const saveHandler = () => {
+        setBtnLoading(true)
+
+        const queryData = {
+            type,
+            image: editData.image || null,
+            video: editData.video || null,
+        }
+
+        axiosAuth.post('/about/gallery/create', queryData)
+            .then(({data})=> {
+                setList([ data, ...list ])
+                toast.success('Данные сохранены')
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setBtnLoading(false))
+
+        setIsOpenAside(false)
+    }
+
+    const deleteHandler = id => {
+        const isConfirm = window.confirm('Удалить партнера?')
+        if (!isConfirm) return null
+
+        axiosAuth.delete('/about/gallery/delete', { data: { id } })
+            .then(()=> {
+                setList(list.filter(item => item.id!==id))
+                toast.success('Данные сохранены')
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+    }
+
+
+    if (isLoading) return <h1>Загрузка...</h1>
     return (
 
-        <div className={ s.container }>
+        <section className={ s.container }>
 
-
-            <h1>Истории успеха</h1>
+            <h1>Фотогалерея</h1>
 
             <div className={ s.addBtns }>
-                <Button add onClick={()=>setIsOpenAside(true)}>
+                <Button add onClick={()=>addPhotoHandler()}>
                     <span>Добавить фото</span>
                     <span>Фото</span>
                 </Button>
-                <Button add onClick={()=>setIsOpenAside(true)}>
+                <Button add onClick={()=>addVideoHandler()}>
                     <span>Добавить видео</span>
                     <span>Видео</span>
                 </Button>
@@ -56,41 +112,47 @@ const AboutPhotos = () => {
                     <ul className={ s.list }>
                         {
                             list.map( (item, i) =>
-                                <PhotosItem key={item.id} {...{item, i}}/>
+                                <PhotosItem key={item.id} {...{item, i, deleteHandler}}/>
                             )
                         }
                     </ul>
                 </SortableContext>
             </DndContext>
 
-            <Button className={ s.btnSave } save>Cохранить</Button>
 
-
-            {/*<EditAside state={isOpenAside} setState={setIsOpenAside} title='Добавить фото'>*/}
-            {/*    <FileInput label='Загрузка изображения' />*/}
-            {/*    <Separator className={ s.separator }/>*/}
-            {/*    <div className={ s.buttons }>*/}
-            {/*        <Button save onClick={()=>setIsOpenAside(false)}>Сохранить</Button>*/}
-            {/*        <Button typeUI='border' onClick={()=>setIsOpenAside(false)}>Отменить</Button>*/}
-            {/*    </div>*/}
-            {/*</EditAside>*/}
-
-            <EditAside state={isOpenAside} setState={setIsOpenAside} title='Добавить видео'>
-                <FileInput label='Загрузка превью' />
-                <Separator className={ s.separator }/>
-                <h2>Загрузка видео</h2>
-                <div className={ s.linkBox }>
-                    <TextInput placeholder='Вставьте ссылку на видео'/>
-                    <Button className={ s.addLink } typeUI='border'>Добавить</Button>
-                </div>
+            <EditAside state={isOpenAside} setState={setIsOpenAside} title={ type==='photo' ? 'Добавить фото' : 'Добавить видео' }>
+                <FileInput
+                    label={ type==='photo' ? 'Загрузка изображения' : 'Загрузка превью' }
+                    value={ editData.image }
+                    setValue={ image => setEditData({...editData, image }) }
+                />
+                {
+                    type==='video'
+                    &&
+                    <>
+                        <Separator className={ s.separator }/>
+                        <h2 className={ s.videoTitle }>Загрузка видео</h2>
+                        <TextInput
+                            placeholder='Вставьте ссылку на видео'
+                            value={ editData.video }
+                            onChange={ e => setEditData({...editData, video: e.target.value }) }
+                        />
+                    </>
+                }
                 <Separator className={ s.separator }/>
                 <div className={ s.buttons }>
-                    <Button save onClick={()=>setIsOpenAside(false)}>Сохранить</Button>
+                    <Button
+                        save
+                        onClick={()=>saveHandler()}
+                        isLoading={btnLoading}
+                    >
+                        Сохранить
+                    </Button>
                     <Button typeUI='border' onClick={()=>setIsOpenAside(false)}>Отменить</Button>
                 </div>
             </EditAside>
 
-        </div>
+        </section>
 
     )
 

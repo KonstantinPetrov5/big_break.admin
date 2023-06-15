@@ -33,10 +33,10 @@ const MainMore = () => {
     useEffect( () => {
         axiosAuth('/home/about')
             .then(({data})=> {
-                console.log('data: ', data)
-                // setTitle(data.title || '')
-                // setDesc(data.description || '')
-                // setImg(data.cut_image || '')
+                setTitle(data.title || '')
+                setDesc(data.description || '')
+                setBtn(data.button || '')
+                setImg(data.image || '')
             })
             .catch(()=>toast.error('Произошла ошибка'))
             .finally(()=>setIsLoading(false))
@@ -44,21 +44,18 @@ const MainMore = () => {
 
 
     const submitHandler = () => {
-        // setBtnLoading(true)
-        //
-        // const queryData = {
-        //     type: 'home',
-        //     title: title || null,
-        //     description: desc || null,
-        //     button: button || null,
-        //     is_background: switchPos==='bg',
-        //     cut_image: img || null,
-        //     background_image: bg || null
-        // }
-        // axiosAuth.put('/banner/update', queryData)
-        //     .then(()=>toast.success('Данные сохранены'))
-        //     .catch(()=>toast.error('Произошла ошибка'))
-        //     .finally(()=>setBtnLoading(false))
+        setBtnLoading(true)
+
+        const queryData = {
+            title: title || null,
+            description: desc || null,
+            button: btn || null,
+            image: img || null
+        }
+        axiosAuth.put('/home/about', queryData)
+            .then(()=>toast.success('Данные сохранены'))
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setBtnLoading(false))
 
     }
 
@@ -71,7 +68,7 @@ const MainMore = () => {
     if (isLoading) return <h1>Загрузка...</h1>
     return <>
 
-        <container className={ s.container } >
+        <section className={ s.container } >
 
             <h1>Подробнее о конкурсе</h1>
 
@@ -99,12 +96,12 @@ const MainMore = () => {
             <Button
                 save
                 isLoading={btnLoading}
-                onClick={()=>submitHandler}
+                onClick={()=>submitHandler()}
             >
                 Сохранить
             </Button>
 
-        </container>
+        </section>
 
         <EditAside state={isOpenAside} setState={setIsOpenAside} title='Добавить фото'>
             <FileInput
