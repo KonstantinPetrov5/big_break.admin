@@ -24,7 +24,7 @@ const PhotosItem = ({item, i, deleteHandler}) => {
                 { type==='video' && <PlayIcon/> }
                 { !!image && <img src={image} alt='photo'/> }
             </div>
-            <TrashIcon onClick={ ()=>deleteHandler() }/>
+            <TrashIcon onClick={ ()=>deleteHandler(id) }/>
         </li>
 
     )

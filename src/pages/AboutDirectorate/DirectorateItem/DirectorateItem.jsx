@@ -10,10 +10,10 @@ import Button from '../../../components/ui/Button/Button.jsx'
 import {EditIcon} from '../../../../public/assets/jsxIcons/EditIcon.jsx'
 
 
-const DirectorateItem = ({item, i, setIsOpenAsideTitle, setIsOpenAsideMember}) => {
+const DirectorateItem = ({item, i, editHandler, deleteHandler, addHandler}) => {
 
 
-    const {id, title, members} = item
+    const {id, title, items} = item
 
     const sortable = useSortable({ id })
     const {setNodeRef, listeners} = sortable
@@ -32,8 +32,8 @@ const DirectorateItem = ({item, i, setIsOpenAsideTitle, setIsOpenAsideMember}) =
                 </div>
                 <p className={ s.itemTitle }>{ title }</p>
                 <div>
-                    <EditIcon onClick={()=>setIsOpenAsideTitle(true)}/>
-                    <TrashIcon/>
+                    <EditIcon onClick={()=>editHandler(id, 'title')}/>
+                    <TrashIcon onClick={()=>deleteHandler(id, 'title')}/>
                     <ChevronRight
                         className={ s.arrow }
                         data-active={ isOpen }
@@ -47,19 +47,19 @@ const DirectorateItem = ({item, i, setIsOpenAsideTitle, setIsOpenAsideMember}) =
                         <Separator className={ s.separator }/>
                         <ul className={ s.membersList }>
                             {
-                                members.map( ({ id, name, img }) =>
+                                items.map( ({ id, title, image }) =>
                                     <li key={id} className={ s.memberItem }>
                                         <div className={ s.img }>
-                                            { !!img && <img src={img} alt='photo'/> }
+                                            { !!image && <img src={image} alt='photo'/> }
                                         </div>
-                                        <p className={ s.title }>{ name }</p>
-                                        <EditIcon onClick={()=>setIsOpenAsideMember(true)}/>
-                                        <TrashIcon />
+                                        <p className={ s.title }>{ title }</p>
+                                        <EditIcon onClick={()=>editHandler(id, 'member')}/>
+                                        <TrashIcon onClick={()=>deleteHandler(id, 'member')}/>
                                     </li>
                                 )
                             }
                         </ul>
-                        <Button add>ДОБАВИТЬ</Button>
+                        <Button add onClick={()=>addHandler('member')}>ДОБАВИТЬ</Button>
                     </div>
                 </div>
             </div>

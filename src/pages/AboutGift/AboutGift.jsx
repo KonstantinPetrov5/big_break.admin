@@ -47,12 +47,9 @@ const AboutGift = () => {
 
 
     const saveDescHandler = () => {
+        setBtnLoadSubtitle(true)
         axiosAuth.put('/about/prizes/desc', { description })
-            .then(()=> {
-                const newList = list.map( obj => obj.id===editData.id ? editData : obj )
-                setList(newList)
-                toast.success('Данные сохранены')
-            })
+            .then(()=>toast.success('Данные сохранены'))
             .catch(()=>toast.error('Произошла ошибка'))
             .finally(()=>setBtnLoadSubtitle(false))
     }
@@ -72,33 +69,33 @@ const AboutGift = () => {
     const saveHandler = () => {
         setBtnLoadMember(true)
 
-        // if (isNew) {
-        //     const queryData = {
-        //         title: editData.title || null,
-        //         description: editData.description || null,
-        //     }
-        //     axiosAuth.post('/about/participants/create', queryData)
-        //         .then(({data})=> {
-        //             setList([ data, ...list ])
-        //             toast.success('Данные сохранены')
-        //         })
-        //         .catch(()=>toast.error('Произошла ошибка'))
-        //         .finally(()=>setBtnLoadMember(false))
-        // } else {
-        //     const queryData = {
-        //         id: editData.id,
-        //         title: editData.title || null,
-        //         description: editData.description || null,
-        //     }
-        //     axiosAuth.put('/about/participants/update', queryData)
-        //         .then(()=> {
-        //             const newList = list.map( obj => obj.id===editData.id ? editData : obj )
-        //             setList(newList)
-        //             toast.success('Данные сохранены')
-        //         })
-        //         .catch(()=>toast.error('Произошла ошибка'))
-        //         .finally(()=>setBtnLoadMember(false))
-        // }
+        if (isNew) {
+            const queryData = {
+                title: editData.title || null,
+                description: editData.description || null,
+            }
+            axiosAuth.post('/about/prizes/create', queryData)
+                .then(({data})=> {
+                    setList([ data, ...list ])
+                    toast.success('Данные сохранены')
+                })
+                .catch(()=>toast.error('Произошла ошибка'))
+                .finally(()=>setBtnLoadMember(false))
+        } else {
+            const queryData = {
+                id: editData.id,
+                title: editData.title || null,
+                description: editData.description || null,
+            }
+            axiosAuth.put('/about/prizes/update', queryData)
+                .then(()=> {
+                    const newList = list.map( obj => obj.id===editData.id ? editData : obj )
+                    setList(newList)
+                    toast.success('Данные сохранены')
+                })
+                .catch(()=>toast.error('Произошла ошибка'))
+                .finally(()=>setBtnLoadMember(false))
+        }
 
         setIsOpenAside(false)
     }
@@ -106,13 +103,12 @@ const AboutGift = () => {
     const deleteHandler = id => {
         const isConfirm = window.confirm('Удалить пункт?')
         if (!isConfirm) return null
-
-        // axiosAuth.delete('/about/participants/delete', { data: { id } })
-        //     .then(()=> {
-        //         setList(list.filter(item => item.id!==id))
-        //         toast.success('Данные сохранены')
-        //     })
-        //     .catch(()=>toast.error('Произошла ошибка'))
+        axiosAuth.delete('/about/prizes/delete', { data: { id } })
+            .then(()=> {
+                setList(list.filter(item => item.id!==id))
+                toast.success('Данные сохранены')
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
     }
 
     const saveNewPosition = e => {
@@ -169,7 +165,7 @@ const AboutGift = () => {
 
             <EditAside state={isOpenAside} setState={setIsOpenAside} title='Изменить название категории'>
                 <TextInput
-                    label={'Категория'}
+                    label='Категория'
                     value={ editData.title }
                     onChange={ e => setEditData({...editData, title: e.target.value }) }
                 />
@@ -177,7 +173,7 @@ const AboutGift = () => {
                 <h1>Изменить описание</h1>
                 <TextAreaInput
                     minRows={3}
-                    label={'Описание'}
+                    label='Описание'
                     value={ editData.description }
                     onChange={ e => setEditData({...editData, description: e.target.value }) }
                 />

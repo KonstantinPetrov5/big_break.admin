@@ -19,101 +19,6 @@ import toast from 'react-hot-toast'
 import {getUnixTime, startOfToday} from 'date-fns'
 
 
-const testData = [
-    {
-        id: 1,
-        category: '5-7 Классы',
-        color: '#4B21B1',
-        stages: [
-            {
-                id: 1,
-                icon: testMainNews,
-                stage: 'Регистрация',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            },
-            {
-                id: 2,
-                icon: '',
-                stage: 'Онлайн-игра. Дистанционный этап',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            }
-        ]
-    },
-    {
-        id: 2,
-        category: '8-10 классы',
-        color: '#4B21B1',
-        stages: [
-            {
-                id: 1,
-                icon: testMainNews,
-                stage: 'Онлайн-собеседование. Дистанционный этап',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            },
-            {
-                id: 2,
-                icon: '',
-                stage: '5-7 классы wef f weeeeee',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            }
-        ]
-    },
-    {
-        id: 3,
-        category: 'Студенты СПО',
-        color: '#4B21B1',
-        stages: [
-            {
-                id: 1,
-                icon: testMainNews,
-                stage: '5-7 классы',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            },
-            {
-                id: 2,
-                icon: '',
-                stage: '5-7 классы wef f weeeeee',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            }
-        ]
-    },
-    {
-        id: 4,
-        category: 'Иностранцы',
-        color: '#4B21B1',
-        stages: [
-            {
-                id: 1,
-                icon: testMainNews,
-                stage: '5-7 классы',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            },
-            {
-                id: 2,
-                icon: '',
-                stage: '5-7 классы wef f weeeeee',
-                desc: 'Lorem ipsum dolor sit amet ipsum dolor sit Lorem ipsum dolor sit amet ipsum ipsum dolor sit Lorem ipsum dolor sit amet ipsum',
-                dateFrom: 1679270400,
-                dateTo: 1679270400
-            }
-        ]
-    }
-]
-
 
 const defaultDataCategory = {
     title: '',
@@ -132,12 +37,13 @@ const AboutStages = () => {
 
     const [isOpenAsideStages, setIsOpenAsideStages] = useState(false)
     const [isOpenAsideCategory, setIsOpenAsideCategory] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [btnLoading, setBtnLoading] = useState(false)
+    const [btnLoadSubtitle, setBtnLoadSubtitle] = useState(false)
 
-    const [categoryList, setCategoryList] = useState(testData)
-    const [activeTab, setActiveTab] = useState(categoryList[0].category)
-    const [stagesList, setStagesList] = useState(categoryList.find(obj=>obj.category===activeTab).stages)
+    const [categoryList, setCategoryList] = useState([])
+    const [activeTab, setActiveTab] = useState(null)
+    const [stagesList, setStagesList] = useState([])
     const [description, setDescription] = useState('')
 
     const [editData, setEditData] = useState(defaultDataCategory)
@@ -145,13 +51,16 @@ const AboutStages = () => {
 
 
     useEffect( () => {
-        setStagesList(categoryList.find(obj=>obj.category===activeTab).stages)
+        if (activeTab) {
+            const currentCategory = categoryList.find(obj=>obj.id===activeTab)
+            setStagesList(currentCategory.items)
+        }
     }, [activeTab] )
 
     useEffect( () => {
         const newList = categoryList.map( obj => {
-            if (obj.category===activeTab) {
-                return {...obj, stages: stagesList}
+            if (obj.id===activeTab) {
+                return {...obj, items: stagesList}
             } else {
                 return obj
             }
@@ -159,12 +68,13 @@ const AboutStages = () => {
         setCategoryList(newList)
     }, [stagesList] )
 
-    useEffect( () => {
+    useEffect( () =>   {
         axiosAuth('/about/steps')
             .then( ({data}) => {
-                console.log('data: ', data)
-                // setDescription(data.description)
-                // setList(data.items)
+                setDescription(data.description)
+                setCategoryList(data.items)
+                setStagesList(data.items[0].items)
+                setActiveTab(data.items[0].id)
             })
             .catch(()=>toast.error('Произошла ошибка'))
             .finally(()=>setIsLoading(false))
@@ -172,14 +82,11 @@ const AboutStages = () => {
 
 
     const saveDescHandler = () => {
-        // axiosAuth.put('/about/participants/desc', { description })
-        //     .then(()=> {
-        //         const newList = list.map( obj => obj.id===editData.id ? editData : obj )
-        //         setList(newList)
-        //         toast.success('Данные сохранены')
-        //     })
-        //     .catch(()=>toast.error('Произошла ошибка'))
-        //     .finally(()=>setBtnLoadSubtitle(false))
+        setBtnLoadSubtitle(true)
+        axiosAuth.put('/about/steps/desc', { description })
+            .then(()=> toast.success('Данные сохранены'))
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setBtnLoadSubtitle(false))
     }
 
     const addHandler = type => {
@@ -197,14 +104,121 @@ const AboutStages = () => {
     const editHandler = (id, type) => {
         setIsNew(false)
         if (type==='category') {
-            setEditData(list.find(obj=>obj.id===id))
+            setEditData(categoryList.find(obj=>obj.id===id))
             setIsOpenAsideCategory(true)
         }
         if (type==='stages') {
+            setEditData(stagesList.find(obj=>obj.id===id))
             setIsOpenAsideStages(true)
         }
     }
 
+    const saveHandler = type => {
+        setBtnLoading(true)
+
+        if (type==='category') {
+            if (isNew) {
+                const queryData = {
+                    title: editData.title || null,
+                    color: editData.color
+                }
+                axiosAuth.post('/about/steps/group/create', queryData)
+                    .then( ({data}) => {
+                        setCategoryList([ data, ...categoryList ])
+                        toast.success('Данные сохранены')
+                    })
+                    .catch(()=>toast.error('Произошла ошибка'))
+                    .finally(()=>setBtnLoading(false))
+            } else {
+                const queryData = {
+                    id: editData.id,
+                    title: editData.title || null,
+                    color: editData.color
+                }
+                axiosAuth.put('/about/steps/group/update', queryData)
+                    .then( () => {
+                        const newList = categoryList.map( obj => obj.id===editData.id ? editData : obj )
+                        setCategoryList(newList)
+                        toast.success('Данные сохранены')
+                    })
+                    .catch(()=>toast.error('Произошла ошибка'))
+                    .finally(()=>setBtnLoading(false))
+            }
+        }
+        if (type==='stages') {
+            if (isNew) {
+                const queryData = {
+                    title: editData.title || null,
+                    description: editData.description || null,
+                    date_from: editData.date_from,
+                    date_to: editData.date_to,
+                    group_id: activeTab
+                }
+                axiosAuth.post('/about/steps/item/create', queryData)
+                    .then( ({data}) => {
+                        setStagesList([ data, ...stagesList ])
+                        toast.success('Данные сохранены')
+                    })
+                    .catch(()=>toast.error('Произошла ошибка'))
+                    .finally(()=>setBtnLoading(false))
+            } else {
+                const queryData = {
+                    id: editData.id,
+                    title: editData.title || null,
+                    description: editData.description || null,
+                    date_from: editData.date_from,
+                    date_to: editData.date_to,
+                    group_id: activeTab
+                }
+                axiosAuth.put('/about/steps/item/update', queryData)
+                    .then( () => {
+                        const newList = stagesList.map( obj => obj.id===editData.id ? editData : obj )
+                        setStagesList(newList)
+                        toast.success('Данные сохранены')
+                    })
+                    .catch(()=>toast.error('Произошла ошибка'))
+                    .finally(()=>setBtnLoading(false))
+            }
+        }
+
+        setIsOpenAsideCategory(false)
+        setIsOpenAsideStages(false)
+    }
+
+    const deleteHandler = (id, type) => {
+        if (type==='category') {
+            const isConfirm = window.confirm('Удалить категорию?')
+            if (!isConfirm) return null
+            axiosAuth.delete('/about/steps/group/delete', { data: { id } })
+                .then(()=> {
+                    setCategoryList(categoryList.filter(item => item.id!==id))
+                    if (activeTab===id) {
+                        setActiveTab(categoryList[0].id!==id ? categoryList[0].id : categoryList[1].id)
+                    }
+                    toast.success('Данные сохранены')
+                })
+                .catch(()=>toast.error('Произошла ошибка'))
+        }
+        if (type==='stages') {
+            const isConfirm = window.confirm('Удалить этап?')
+            if (!isConfirm) return null
+            axiosAuth.delete('/about/steps/item/delete', { data: { id } })
+                .then(()=> {
+                    const newList = stagesList.filter(item => item.id!==id)
+                    setStagesList(newList)
+                    toast.success('Данные сохранены')
+                })
+                .catch(()=>toast.error('Произошла ошибка'))
+        }
+    }
+
+    const saveNewPosition = e => {
+        // const id = e.active.id
+        // const new_position = e.over.data.current.sortable.index + 1
+        // axiosAuth.post('home/partners/position', { id, new_position })
+        //     .then( () => toast.success('Данные сохранены') )
+        //     .catch(()=>toast.error('Произошла ошибка'))
+    }
 
 
     if (isLoading) return <h1>Загрузка...</h1>
@@ -221,9 +235,13 @@ const AboutStages = () => {
             minRows={6}
         />
 
-        <Button className={ s.saveBtn } save>Сохранить</Button>
+        <Button className={ s.saveBtn } save isLoading={btnLoadSubtitle} onClick={()=>saveDescHandler()}>
+            Сохранить
+        </Button>
 
-        <Button add className={ s.addCatBtn }>Добавить Категорию</Button>
+        <Button add className={ s.addCatBtn } onClick={()=>addHandler('category')}>
+            Добавить Категорию
+        </Button>
 
         <div className={ s.categoryContainer }>
             <DndContext
@@ -232,15 +250,17 @@ const AboutStages = () => {
             >
                 <SortableContext items={categoryList} strategy={verticalListSortingStrategy}>
                     {
-                        categoryList.map( ({ id, category }) =>
-                            <CategoryItem key={id} {...{id, category, activeTab, setActiveTab, setIsOpenAsideCategory}}/>
+                        categoryList.map( ({ id, title }) =>
+                            <CategoryItem key={id} {...{id, title, activeTab, setActiveTab, editHandler, deleteHandler}}/>
                         )
                     }
                 </SortableContext>
             </DndContext>
         </div>
 
-        <Button add className={ s.addStageBtn }>Добавить этап</Button>
+        <Button add className={ s.addStageBtn } onClick={()=>addHandler('stages')}>
+            Добавить этап
+        </Button>
 
         <ul className={ s.stagesContainer }>
             <DndContext
@@ -250,7 +270,7 @@ const AboutStages = () => {
                 <SortableContext items={stagesList} strategy={verticalListSortingStrategy}>
                     {
                         stagesList.map( (item, i) =>
-                            <StagesItem key={item.id} {...{item, i, setIsOpenAsideStages}}/>
+                            <StagesItem key={item.id} {...{item, i, editHandler, deleteHandler}}/>
                         )
                     }
                 </SortableContext>
@@ -259,38 +279,67 @@ const AboutStages = () => {
 
 
         <EditAside state={isOpenAsideCategory} setState={setIsOpenAsideCategory} title='Изменить название категории'>
-            <TextInput label={'Категория'}/>
+            <TextInput
+                value={ editData.title }
+                onChange={ e => setEditData({...editData, title: e.target.value }) }
+                label='Категория'
+            />
             <Separator className={ s.separator }/>
             <h1>Изменить цвет</h1>
-            <ColorSelect/>
+            <ColorSelect
+                state={ editData.color }
+                setState={ clr => setEditData({...editData, color: clr }) }
+            />
             <Separator className={ s.separator }/>
             <div className={ s.buttons }>
-                <Button save>Сохранить</Button>
-                <Button typeUI='border'>Отменить</Button>
+                <Button save isLoading={btnLoading} onClick={()=>saveHandler('category') }>
+                    Сохранить
+                </Button>
+                <Button typeUI='border' onClick={()=>setIsOpenAsideCategory(false)}>
+                    Отменить
+                </Button>
             </div>
         </EditAside>
 
         <EditAside state={isOpenAsideStages} setState={setIsOpenAsideStages} title='Изменить название этапа'>
-            <TextInput label={'Этап'}/>
+            <TextInput
+                value={ editData.title }
+                onChange={ e => setEditData({...editData, title: e.target.value }) }
+                label='Этап'
+            />
             <Separator className={ s.separator }/>
             <h1>Изменить описание</h1>
-            <TextInput label={'Описание'}/>
+            <TextAreaInput
+                value={ editData.description }
+                onChange={ e => setEditData({...editData, description: e.target.value }) }
+                label={'Описание'}
+            />
             <Separator className={ s.separator }/>
             <h1>Изменить дату</h1>
             <div className={ s.dateBox }>
                 <div>
                     <h2>От</h2>
-                    <DateInput/>
+                    <DateInput
+                        value={ editData.date_from }
+                        onChange={ date => setEditData({...editData, date_from: date }) }
+                    />
                 </div>
                 <div>
                     <h2>До</h2>
-                    <DateInput/>
+                    <DateInput
+                        value={ editData.date_to }
+                        onChange={ date => setEditData({...editData, date_to: date }) }
+                    />
                 </div>
             </div>
             <Separator className={ s.separator }/>
             <div className={ s.buttons }>
-                <Button save>Сохранить</Button>
-                <Button typeUI='border'>Отменить</Button>
+                <Button save isLoading={btnLoading} onClick={()=>saveHandler('stages') }>
+                    Сохранить
+                </Button>
+                <Button typeUI='border' onClick={()=>setIsOpenAsideStages(false)}>
+                    Отменить
+                </Button>
             </div>
         </EditAside>
 

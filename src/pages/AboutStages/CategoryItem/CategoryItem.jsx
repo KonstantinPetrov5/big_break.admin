@@ -6,7 +6,7 @@ import {TrashIcon} from '../../../../public/assets/jsxIcons/TrashIcon.jsx'
 import {useSortable} from '@dnd-kit/sortable'
 
 
-const CategoryItem = ({id, category, activeTab, setActiveTab, setIsOpenAsideCategory}) => {
+const CategoryItem = ({id, title, activeTab, setActiveTab, editHandler, deleteHandler}) => {
 
 
     const sortable = useSortable({ id })
@@ -18,20 +18,20 @@ const CategoryItem = ({id, category, activeTab, setActiveTab, setIsOpenAsideCate
         <label
             key={ id }
             className={ s.label }
-            data-checked={ activeTab === category }
+            data-checked={ activeTab === id }
             style={ dndStyleContainer(sortable) }
             ref={ setNodeRef }
         >
             <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
-            <p>{ category }</p>
-            <EditIcon className={ s.editIcon } onClick={ ()=>setIsOpenAsideCategory(true)}/>
-            <TrashIcon />
+            <p>{ title }</p>
+            <EditIcon className={ s.editIcon } onClick={ ()=>editHandler(id, 'category')}/>
+            <TrashIcon onClick={ ()=>deleteHandler(id, 'category')}/>
             <input
                 type='radio'
-                id={ category }
-                value={ category }
+                id={ id }
+                value={ id }
                 name='stagesList'
-                onChange={ e => setActiveTab(e.target.value)}
+                onChange={ e => setActiveTab(Number(e.target.value)) }
             />
         </label>
 

@@ -49,12 +49,9 @@ const AboutCalls = () => {
 
 
     const saveDescHandler = () => {
+        setBtnLoadSubtitle(true)
         axiosAuth.put('/about/challenges/desc', { description })
-            .then(()=> {
-                const newList = list.map( obj => obj.id===editData.id ? editData : obj )
-                setList(newList)
-                toast.success('Данные сохранены')
-            })
+            .then(()=> toast.success('Данные сохранены'))
             .catch(()=>toast.error('Произошла ошибка'))
             .finally(()=>setBtnLoadSubtitle(false))
     }
