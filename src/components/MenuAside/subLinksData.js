@@ -26,5 +26,17 @@ export const subLinksData = [
             { id: 'faa07b6b', icon: 'successStories',      link: 'about/stories',     label: 'Истории успеха' },
             { id: 'b4f39fa1', icon: 'photos',              link: 'about/photos',      label: 'Фотогалерея' },
         ]
+    },
+    {
+        id: 'hf921jd8',
+        label: 'Для педагогов',
+        list: [
+            { id: 'kd8283jc', icon: 'banner',              link: 'teachers/banner',   label: 'Баннер' },
+            { id: 'gc926dfj', icon: 'desc',                link: 'teachers/desc',     label: 'Описание' },
+            { id: 'nv0o18ef', icon: 'keys',                link: 'teachers/club',     label: 'Как открыть клуб большой перемены' },
+            { id: 'i17egv0w', icon: 'books',               link: 'teachers/room',     label: 'Учительская большой перемены' },
+            { id: '61hv9821', icon: 'photos',              link: 'teachers/gallery',  label: 'Галерея' },
+            { id: '1fy219du', icon: 'select',              link: 'teachers/sta',      label: 'СТА' },
+        ]
     }
 ]

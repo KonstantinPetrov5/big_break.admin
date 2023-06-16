@@ -85,6 +85,14 @@ const AboutPhotos = () => {
             .catch(()=>toast.error('Произошла ошибка'))
     }
 
+    const saveNewPosition = e => {
+        const id = e.active.id
+        const new_position = e.over.data.current.sortable.index + 1
+        axiosAuth.post('/about/gallery/position', { id, new_position })
+            .then( () => toast.success('Данные сохранены') )
+            .catch(()=>toast.error('Произошла ошибка'))
+    }
+
 
     if (isLoading) return <h1>Загрузка...</h1>
     return (
@@ -105,7 +113,10 @@ const AboutPhotos = () => {
             </div>
 
             <DndContext
-                onDragEnd={ e => dndHandlers(e, list, setList) }
+                onDragEnd={ e => {
+                    dndHandlers(e, list, setList)
+                    saveNewPosition(e)
+                } }
                 modifiers={[restrictToVerticalAxis, restrictToParentElement]}
             >
                 <SortableContext items={list} strategy={verticalListSortingStrategy}>

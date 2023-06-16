@@ -212,12 +212,19 @@ const AboutStages = () => {
         }
     }
 
-    const saveNewPosition = e => {
-        // const id = e.active.id
-        // const new_position = e.over.data.current.sortable.index + 1
-        // axiosAuth.post('home/partners/position', { id, new_position })
-        //     .then( () => toast.success('Данные сохранены') )
-        //     .catch(()=>toast.error('Произошла ошибка'))
+    const saveNewPosition = (e, type) => {
+        const id = e.active.id
+        const new_position = e.over.data.current.sortable.index + 1
+        if (type==='category') {
+            axiosAuth.post('/about/steps/group/position', { id, new_position })
+                .then( () => toast.success('Данные сохранены') )
+                .catch(()=>toast.error('Произошла ошибка'))
+        }
+        if (type==='stages') {
+            axiosAuth.post('/about/steps/item/position', { id, new_position })
+                .then( () => toast.success('Данные сохранены') )
+                .catch(()=>toast.error('Произошла ошибка'))
+        }
     }
 
 
@@ -245,7 +252,10 @@ const AboutStages = () => {
 
         <div className={ s.categoryContainer }>
             <DndContext
-                onDragEnd={ e => dndHandlers(e, categoryList, setCategoryList) }
+                onDragEnd={ e => {
+                    dndHandlers(e, categoryList, setCategoryList)
+                    saveNewPosition(e, 'category')
+                }}
                 modifiers={[restrictToVerticalAxis, restrictToParentElement]}
             >
                 <SortableContext items={categoryList} strategy={verticalListSortingStrategy}>
@@ -264,7 +274,10 @@ const AboutStages = () => {
 
         <ul className={ s.stagesContainer }>
             <DndContext
-                onDragEnd={ e => dndHandlers(e, stagesList, setStagesList) }
+                onDragEnd={ e => {
+                    dndHandlers(e, stagesList, setStagesList)
+                    saveNewPosition(e, 'stages')
+                } }
                 modifiers={[restrictToVerticalAxis, restrictToParentElement]}
             >
                 <SortableContext items={stagesList} strategy={verticalListSortingStrategy}>

@@ -3,7 +3,7 @@ import {getRecoil, resetRecoil} from 'recoil-nexus'
 import {userAtom} from '../store/UserRecoil.js'
 
 
-const baseURL = 'http://admin.vivashop.kz/api/v1'
+const baseURL = 'https://admin.vivashop.kz/api/v1'
 
 
 export const axiosAuth = axios.create({ baseURL })

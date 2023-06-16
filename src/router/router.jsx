@@ -19,6 +19,12 @@ import AboutObservers from '../pages/AboutObservers/AboutObservers.jsx'
 import AboutDirectorate from '../pages/AboutDirectorate/AboutDirectorate.jsx'
 import AboutStories from '../pages/AboutStories/AboutStories.jsx'
 import AboutPhotos from '../pages/AboutPhotos/AboutPhotos.jsx'
+import TeachersBanner from '../pages/TeachersBanner/TeachersBanner.jsx'
+import TeachersDesc from '../pages/TeachersDesc/TeachersDesc.jsx'
+import TeachersClub from '../pages/TeachersClub/TeachersClub.jsx'
+import TeachersRoom from '../pages/TeachersRoom/TeachersRoom.jsx'
+import TeachersGallery from '../pages/TeachersGallery/TeachersGallery.jsx'
+import TeachersSta from '../pages/TeachersSta/TeachersSta.jsx'
 
 
 export const Router = createBrowserRouter([{
@@ -32,6 +38,7 @@ export const Router = createBrowserRouter([{
 			{ path: 'main/more',         element: <MainMore/>         },
 			{ path: 'main/news',         element: <MainNews/>         },
 			{ path: 'main/partners',     element: <MainPartners/>     },
+
 			{ path: 'about/banner',      element: <AboutBanner/>      },
 			{ path: 'about/ticker',      element: <AboutTicker/>      },
 			{ path: 'about/members',     element: <AboutMembers/>     },
@@ -43,6 +50,13 @@ export const Router = createBrowserRouter([{
 			{ path: 'about/directorate', element: <AboutDirectorate/> },
 			{ path: 'about/stories',     element: <AboutStories/>     },
 			{ path: 'about/photos',      element: <AboutPhotos/>      },
+
+			{ path: 'teachers/banner',   element: <TeachersBanner/>   },
+			{ path: 'teachers/desc',     element: <TeachersDesc/>     },
+			{ path: 'teachers/club',     element: <TeachersClub/>     },
+			{ path: 'teachers/room',     element: <TeachersRoom/>     },
+			{ path: 'teachers/gallery',  element: <TeachersGallery/>  },
+			{ path: 'teachers/sta',      element: <TeachersSta/>      },
 		]},
 
 		{ path: 'login', element: <Login/> },

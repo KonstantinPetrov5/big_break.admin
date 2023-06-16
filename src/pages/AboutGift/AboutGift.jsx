@@ -112,11 +112,11 @@ const AboutGift = () => {
     }
 
     const saveNewPosition = e => {
-        // const id = e.active.id
-        // const new_position = e.over.data.current.sortable.index + 1
-        // axiosAuth.post('home/partners/position', { id, new_position })
-        //     .then( () => toast.success('Данные сохранены') )
-        //     .catch(()=>toast.error('Произошла ошибка'))
+        const id = e.active.id
+        const new_position = e.over.data.current.sortable.index + 1
+        axiosAuth.post('about/prizes/position', { id, new_position })
+            .then( () => toast.success('Данные сохранены') )
+            .catch(()=>toast.error('Произошла ошибка'))
     }
 
 
@@ -149,7 +149,10 @@ const AboutGift = () => {
 
             <ul className={ s.list }>
                 <DndContext
-                    onDragEnd={ e => dndHandlers(e, list, setList) }
+                    onDragEnd={ e => {
+                        dndHandlers(e, list, setList)
+                        saveNewPosition(e)
+                    } }
                     modifiers={[restrictToVerticalAxis, restrictToParentElement]}
                 >
                     <SortableContext items={list} strategy={verticalListSortingStrategy}>

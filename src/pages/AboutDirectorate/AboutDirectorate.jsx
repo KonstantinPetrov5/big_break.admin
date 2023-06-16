@@ -37,6 +37,7 @@ const AboutDirectorate = () => {
     const [description, setDescription] = useState('')
 
     const [editData, setEditData] = useState(defaultDataMember)
+    const [groupId, setGroupId] = useState(null)
     const [isNew, setIsNew] = useState(true)
 
 
@@ -115,37 +116,46 @@ const AboutDirectorate = () => {
         }
         if (type==='member') {
             if (isNew) {
-                // const queryData = {
-                //     title: editData.title || null,
-                //     description: editData.description || null,
-                //     date_from: editData.date_from,
-                //     date_to: editData.date_to,
-                //     group_id: activeTab
-                // }
-                // axiosAuth.post('/about/directorate/item/create', queryData)
-                //     .then( ({data}) => {
-                //         setStagesList([ data, ...stagesList ])
-                //         toast.success('Данные сохранены')
-                //     })
-                //     .catch(()=>toast.error('Произошла ошибка'))
-                //     .finally(()=>setBtnLoading(false))
+                const queryData = {
+                    title: editData.title || null,
+                    image: editData.image || null,
+                    group_id: groupId
+                }
+                axiosAuth.post('/about/directorate/item/create', queryData)
+                    .then( ({data}) => {
+                        const newList = list.map( group => {
+                            if (group.id===groupId) {
+                                return { ...group, items: [data, ...group.items] }
+                            } else {
+                                return group
+                            }
+                        } )
+                        setList(newList)
+                        toast.success('Данные сохранены')
+                    })
+                    .catch(()=>toast.error('Произошла ошибка'))
+                    .finally(()=>setBtnLoading(false))
             } else {
-                // const queryData = {
-                //     id: editData.id,
-                //     title: editData.title || null,
-                //     description: editData.description || null,
-                //     date_from: editData.date_from,
-                //     date_to: editData.date_to,
-                //     group_id: activeTab
-                // }
-                // axiosAuth.put('/about/directorate/item/update', queryData)
-                //     .then( () => {
-                //         const newList = stagesList.map( obj => obj.id===editData.id ? editData : obj )
-                //         setStagesList(newList)
-                //         toast.success('Данные сохранены')
-                //     })
-                //     .catch(()=>toast.error('Произошла ошибка'))
-                //     .finally(()=>setBtnLoading(false))
+                const queryData = {
+                    id: editData.id,
+                    title: editData.title || null,
+                    image: editData.image || null,
+                    group_id: groupId
+                }
+                axiosAuth.put('/about/directorate/item/update', queryData)
+                    .then( () => {
+                        const newList = list.map( group => {
+                            if (group.id===groupId) {
+                                return group.map( item => item.id===editData.id ? editData : item )
+                            } else {
+                                return group
+                            }
+                        })
+                        setList(newList)
+                        toast.success('Данные сохранены')
+                    })
+                    .catch(()=>toast.error('Произошла ошибка'))
+                    .finally(()=>setBtnLoading(false))
             }
         }
 
@@ -165,22 +175,28 @@ const AboutDirectorate = () => {
                 .catch(()=>toast.error('Произошла ошибка'))
         }
         if (type==='member') {
-            // const isConfirm = window.confirm('Удалить этап?')
-            // if (!isConfirm) return null
-            // axiosAuth.delete('/about/directorate/item/delete', { data: { id } })
-            //     .then(()=> {
-            //         const newList = stagesList.filter(item => item.id!==id)
-            //         setStagesList(newList)
-            //         toast.success('Данные сохранены')
-            //     })
-            //     .catch(()=>toast.error('Произошла ошибка'))
+            const isConfirm = window.confirm('Удалить имя?')
+            if (!isConfirm) return null
+            axiosAuth.delete('/about/directorate/item/delete', { data: { id } })
+                .then(()=> {
+                    const newList = list.map( group => {
+                        if (group.id===groupId) {
+                            return { ...group, items: group.items.filter(item => item.id!==id) }
+                        } else {
+                            return group
+                        }
+                    })
+                    setList(newList)
+                    toast.success('Данные сохранены')
+                })
+                .catch(()=>toast.error('Произошла ошибка'))
         }
     }
 
     const saveNewPosition = e => {
         // const id = e.active.id
         // const new_position = e.over.data.current.sortable.index + 1
-        // axiosAuth.post('home/partners/position', { id, new_position })
+        // axiosAuth.post('about/directorate/position', { id, new_position })
         //     .then( () => toast.success('Данные сохранены') )
         //     .catch(()=>toast.error('Произошла ошибка'))
     }
@@ -214,13 +230,16 @@ const AboutDirectorate = () => {
 
         <ul className={ s.list }>
             <DndContext
-                onDragEnd={ e => dndHandlers(e, list, setList) }
+                onDragEnd={ e => {
+                    dndHandlers(e, list, setList)
+                    saveNewPosition(e)
+                }}
                 modifiers={[restrictToVerticalAxis, restrictToParentElement]}
             >
                 <SortableContext items={list} strategy={verticalListSortingStrategy}>
                     {
                         list.map( (item, i) =>
-                            <DirectorateItem key={item.id} {...{item, i, editHandler, deleteHandler, addHandler}}/>
+                            <DirectorateItem key={item.id} {...{item, i, editHandler, deleteHandler, addHandler, setGroupId}}/>
                         )
                     }
                 </SortableContext>
@@ -256,7 +275,7 @@ const AboutDirectorate = () => {
             <TextInput
                 value={ editData.title }
                 onChange={ e => setEditData({...editData, title: e.target.value }) }
-                label='Этап'
+                label='Имя'
             />
             <Separator className={ s.separator }/>
             <div className={ s.buttons }>
