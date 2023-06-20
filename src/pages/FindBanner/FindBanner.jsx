@@ -1,13 +1,16 @@
-import s from './TeachersSta.module.sass'
+import s from './FindBanner.module.sass'
 import {useEffect, useState} from 'react'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
+import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 import SwitchInput from '../../components/ui/SwitchInput/SwitchInput.jsx'
-import EditImage from '../../components/ui/EditImage/EditImage.jsx'
-import redBg from '../../../public/assets/images/redBg.png'
 import Button from '../../components/ui/Button/Button.jsx'
+import EditImage from '../../components/ui/EditImage/EditImage.jsx'
 import EditAside from '../../components/EditAside/EditAside.jsx'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
+import {axiosAuth} from '../../utils/axiosInstance.js'
+import toast from 'react-hot-toast'
+import redBg from '../../../public/assets/images/redBg.png'
 
 
 const switchData = [
@@ -16,7 +19,7 @@ const switchData = [
 ]
 
 
-const TeachersSta = () => {
+const FindBanner = () => {
 
 
     const [isOpenAside, setIsOpenAside] = useState(false)
@@ -27,45 +30,50 @@ const TeachersSta = () => {
     const [loadedImg, setLoadedImg] = useState('')
 
     const [title, setTitle] = useState('')
+    const [desc, setDesc] = useState('')
     const [button, setButton] = useState('')
     const [img, setImg] = useState('')
     const [bg, setBg] = useState('')
+
 
     useEffect( () => {
         setLoadedImg('')
     }, [isOpenAside] )
 
     useEffect( () => {
-        setIsLoading(false) // отключает загрузку, пока не подключены api
-        // axiosAuth('/banner?type=home')
-        //     .then(({data})=> {
-        //         setTitle(data.title || '')
-        //         setButton(data.button || '')
-        //         setImg(data.cut_image || '')
-        //         setBg(data.background_image || '')
-        //         setSwitchPos(data.is_background ? 'bg' : 'img')
-        //     })
-        //     .catch(()=>toast.error('Произошла ошибка'))
-        //     .finally(()=>setIsLoading(false))
+        axiosAuth('/banner?type=about')
+            .then(({data})=> {
+                setTitle(data.title || '')
+                setDesc(data.description || '')
+                setButton(data.button || '')
+                setImg(data.cut_image || '')
+                setBg(data.background_image || '')
+                setSwitchPos(data.is_background ? 'bg' : 'img')
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setIsLoading(false))
     }, [] )
 
+
     const submitHandler = () => {
-        // setBtnLoading(true)
-        //
-        // const queryData = {
-        //     type: 'home',
-        //     title: title || null,
-        //     button: button || null,
-        //     is_background: switchPos==='bg',
-        //     cut_image: img || null,
-        //     background_image: bg || null
-        // }
-        // axiosAuth.put('/banner/update', queryData)
-        //     .then(()=>toast.success('Данные сохранены'))
-        //     .catch(()=>toast.error('Произошла ошибка'))
-        //     .finally(()=>setBtnLoading(false))
+        setBtnLoading(true)
+
+        const queryData = {
+            type: 'about',
+            title: title || null,
+            description: desc || null,
+            button: button || null,
+            is_background: switchPos==='bg',
+            cut_image: img || null,
+            background_image: bg || null
+        }
+        axiosAuth.put('/banner/update', queryData)
+            .then(()=>toast.success('Данные сохранены'))
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setBtnLoading(false))
 
     }
+
 
     const imgHandler = type => {
         if (type==='save') {
@@ -80,11 +88,19 @@ const TeachersSta = () => {
     if (isLoading) return <h1>Загрузка...</h1>
     return <>
 
-        <section className={ s.container }>
+        <section className={ s.container } onSubmit={ e=>null }>
 
-            <h1>СТА</h1>
+            <h1>Баннер</h1>
 
-            <TextInput value={title} onChange={e=>setTitle(e.target.value)} label='Заголовок' className={ s.title }/>
+            <TextInput value={title} onChange={e=>setTitle(e.target.value)} label='Заголовок'/>
+
+            <TextAreaInput
+                className={ s.desc }
+                value={desc}
+                onChange={e=>setDesc(e.target.value)}
+                label='Description'
+                minRows={2}
+            />
 
             <TextInput value={button} onChange={e=>setButton(e.target.value)} label='Кнопка'/>
 
@@ -128,4 +144,4 @@ const TeachersSta = () => {
 }
 
 
-export default TeachersSta
+export default FindBanner

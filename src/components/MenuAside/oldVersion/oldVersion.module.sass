@@ -9,10 +9,6 @@
   background-color: var(--c-white)
   box-shadow: 1px 0 6px rgba(57, 57, 57, .1)
   overflow-y: auto
-  scrollbar-width: none
-  &::-webkit-scrollbar
-    width: 0
-    height: 0
   a
     padding: 8px 0
     display: flex
@@ -34,13 +30,12 @@
   display: flex
   flex-direction: column
   gap: 12px
-
-.list
-  cursor: pointer
-  &[data-open='true'] > .subLinks
-    grid-template-rows: 1fr
-  svg[data-open='true']
-    transform: scaleY(1)
+  nav
+    cursor: pointer
+    &[data-open='true'] .subLinks
+      grid-template-rows: 1fr
+    &[data-open='true'] svg
+      transform: scaleY(1)
 
 .labelBox
   padding: 0 20px
@@ -80,32 +75,23 @@
   pointer-events: none
 
 .mobileItems
-  display: flex
+  display: none
   flex-direction: column
-  padding: 20px 0
-  margin: 30px 20px 50px
+  gap: 20px
+  padding-top: 30px
+  margin: 30px 20px 100px
   border-top: 1px solid var(--c-separator)
-  .exitButton
-    cursor: pointer
+  & > p
     display: flex
     align-items: center
     gap: 14px
-    svg
-      height: 24px
-      width: 24px
-  p, a
     font-weight: 600
     font-size: 14px
     line-height: 120%
-  .support
-    margin: 20px 0
-    padding-bottom: 12px
-    opacity: .7
-    border-bottom: 1px solid var(--c-separator)
 
-.syndicate
-  margin-left: auto
-
+.exitButton
+  height: 24px
+  width: 24px
 
 .bgMenu
   position: absolute
@@ -127,3 +113,7 @@
     transform: translateX(0)
     & + .bgMenu
       display: block
+
+@media(max-width: 479px)
+  .mobileItems
+    display: flex

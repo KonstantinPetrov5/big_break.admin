@@ -11,13 +11,14 @@ import {lockScrollHandler} from '../../utils/lockScroll.js'
 import {burgerAtom} from '../../store/BurgerRecoil.js'
 import {useRecoilState} from 'recoil'
 import {logoutHandler} from '../../utils/logoutHandler.js'
+import {SyndicateIcon} from '../../../public/assets/jsxIcons/SyndicateIcon.jsx'
 
 
 const MenuAside = () => {
 
 
-    const [openItem, setOpenItem] = useState(sessionStorage.getItem('openMenuItem') || '')
-    
+    const [openItem, setOpenItem] = useState([])
+
     const { pathname } = useLocation()
 
     const [menuIsOpen, setMenuIsOpen] = useRecoilState(burgerAtom)
@@ -25,10 +26,6 @@ const MenuAside = () => {
     const asideRef = useRef(null)
     useClickOutside(asideRef.current, menuIsOpen, ()=>setMenuIsOpen(false))
 
-    useEffect( () => {
-        sessionStorage.setItem('openMenuItem', openItem)
-        // сохраняем состояние меню
-    }, [openItem] )
 
     useEffect( () => {
         if (menuIsOpen) setMenuIsOpen(false)
@@ -37,8 +34,11 @@ const MenuAside = () => {
 
 
     const openItemHandler = id => {
-        const state = openItem!==id ? id : ''
-        setOpenItem(state)
+        if (openItem.includes(id)) {
+            setOpenItem(openItem.filter(item => item!==id))
+        } else {
+            setOpenItem([ ...openItem, id ])
+        }
     }
 
 
@@ -58,11 +58,13 @@ const MenuAside = () => {
 
                     <div className={ s.subLinksBox }>
                         {
-                            subLinksData.map( item =>
-                                <nav key={item.id} data-open={item.id===openItem} >
+                            subLinksData.map( item => (
+                                !item.isGroup
+                                ?
+                                <nav className={ s.list } key={item.id} data-open={openItem.includes(item.id)} >
                                     <div className={ s.labelBox } onClick={ () => openItemHandler(item.id) }>
                                         <p>{ item.label }</p>
-                                        <ChevronUp/>
+                                        <ChevronUp data-open={openItem.includes(item.id)} />
                                     </div>
                                     <div className={ s.subLinks }>
                                         <div>
@@ -77,16 +79,56 @@ const MenuAside = () => {
                                         </div>
                                     </div>
                                 </nav>
-                            )
+                                :
+                                <nav className={ s.list } key={item.id} data-open={openItem.includes(item.id)} >
+                                    <div className={ s.labelBox } onClick={ () => openItemHandler(item.id) }>
+                                        <p>{ item.label }</p>
+                                        <ChevronUp data-open={openItem.includes(item.id)}/>
+                                    </div>
+                                    <div className={ s.subLinks } style={{ marginLeft: '20px' }}>
+                                        <div>
+                                            {
+                                                item.list.map( item =>
+                                                    <nav className={ s.list } style={{ marginTop: '10px' }} key={item.id} data-open={openItem.includes(item.id)} >
+                                                        <div className={ s.labelBox } onClick={ () => openItemHandler(item.id) }>
+                                                            <p>{ item.label }</p>
+                                                            <ChevronUp data-open={openItem.includes(item.id)}/>
+                                                        </div>
+                                                        <div className={ s.subLinks }>
+                                                            <div>
+                                                                {
+                                                                    item.list.map( ({id, icon, link, label}) =>
+                                                                        <NavLink key={id} to={link} className={ ({ isActive }) => isActive ? s.activeLink : '' }>
+                                                                            <img src={`/assets/icons/${icon}.svg`} alt={label}/>
+                                                                            { label }
+                                                                        </NavLink>
+                                                                    )
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </nav>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+                                </nav>
+                            ))
                         }
                     </div>
 
                     <div className={ s.mobileItems }>
-                        <p onClick={ logoutHandler }>
-                            <ExitIcon className={ s.exitButton }/>
+                        <p className={ s.exitButton } onClick={ logoutHandler }>
+                            <ExitIcon/>
                             Выход
                         </p>
+                        <div className={ s.support }>
+                            <p>Техническая поддержка:</p>
+                            <a href='https://t.me/syndicate' target="_blank">t.me/syndicate</a>
+                        </div>
+
+                        <SyndicateIcon className={ s.syndicate }/>
                     </div>
+
 
                 </aside>
 

@@ -1,4 +1,4 @@
-import s from './TeachersSta.module.sass'
+import s from './SupportSta1.module.sass'
 import {useEffect, useState} from 'react'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
 import SwitchInput from '../../components/ui/SwitchInput/SwitchInput.jsx'
@@ -16,7 +16,7 @@ const switchData = [
 ]
 
 
-const TeachersSta = () => {
+const SupportSta1 = () => {
 
 
     const [isOpenAside, setIsOpenAside] = useState(false)
@@ -128,4 +128,4 @@ const TeachersSta = () => {
 }
 
 
-export default TeachersSta
+export default SupportSta1

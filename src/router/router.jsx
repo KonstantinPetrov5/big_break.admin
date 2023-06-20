@@ -8,23 +8,32 @@ import MainTicker from '../pages/MainTicker/MainTicker.jsx'
 import MainMore from '../pages/MainMore/MainMore.jsx'
 import MainNews from '../pages/MainNews/MainNews.jsx'
 import MainPartners from '../pages/MainPartners/MainPartners.jsx'
-import AboutBanner from '../pages/AboutBanner/AboutBanner.jsx'
-import AboutTicker from '../pages/AboutTicker/AboutTicker.jsx'
-import AboutMembers from '../pages/AboutMembers/AboutMembers.jsx'
-import AboutCalls from '../pages/AboutCalls/AboutCalls.jsx'
-import AboutStages from '../pages/AboutStages/AboutStages.jsx'
-import AboutGift from '../pages/AboutGift/AboutGift.jsx'
-import AboutExperts from '../pages/AboutExperts/AboutExperts.jsx'
-import AboutObservers from '../pages/AboutObservers/AboutObservers.jsx'
-import AboutDirectorate from '../pages/AboutDirectorate/AboutDirectorate.jsx'
-import AboutStories from '../pages/AboutStories/AboutStories.jsx'
-import AboutPhotos from '../pages/AboutPhotos/AboutPhotos.jsx'
+import FindBanner from '../pages/FindBanner/FindBanner.jsx'
+import FindTicker from '../pages/FindTicker/FindTicker.jsx'
+import FindMembers from '../pages/FindMembers/FindMembers.jsx'
+import FindCalls from '../pages/FindCalls/FindCalls.jsx'
+import FindStages from '../pages/FindStages/FindStages.jsx'
+import FindGift from '../pages/FindGift/FindGift.jsx'
+import FindExperts from '../pages/FindExperts/FindExperts.jsx'
+import FindObservers from '../pages/FindObservers/FindObservers.jsx'
+import FindDirectorate from '../pages/FindDirectorate/FindDirectorate.jsx'
+import FindStories from '../pages/FindStories/FindStories.jsx'
+import FindPhotos from '../pages/FindPhotos/FindPhotos.jsx'
 import TeachersBanner from '../pages/TeachersBanner/TeachersBanner.jsx'
 import TeachersDesc from '../pages/TeachersDesc/TeachersDesc.jsx'
 import TeachersClub from '../pages/TeachersClub/TeachersClub.jsx'
 import TeachersRoom from '../pages/TeachersRoom/TeachersRoom.jsx'
 import TeachersGallery from '../pages/TeachersGallery/TeachersGallery.jsx'
 import TeachersSta from '../pages/TeachersSta/TeachersSta.jsx'
+import SupportBanner from '../pages/SupportBanner/SupportBanner.jsx'
+import SupportGrants from '../pages/SupportGrants/SupportGrants.jsx'
+import SupportProjects from '../pages/SupportProjects/SupportProjects.jsx'
+import SupportSta1 from '../pages/SupportSta1/SupportSta1.jsx'
+import SupportMusic from '../pages/SupportMusic/SupportMusic.jsx'
+import SupportTrips from '../pages/SupportTrips/SupportTrips.jsx'
+import SupportSta2 from '../pages/SupportSta2/SupportSta2.jsx'
+import MentorBanner from '../pages/MentorBanner/MentorBanner.jsx'
+import MentorSchool from '../pages/MentorSchool/MentorSchool.jsx'
 
 
 export const Router = createBrowserRouter([{
@@ -33,30 +42,41 @@ export const Router = createBrowserRouter([{
 	children: [
 
 		{ path: '/', element: <AuthGuard route={<Layout/>}/>, children: [
-			{ path: 'main/banner',       element: <MainBanner/>       },
-			{ path: 'main/ticker',       element: <MainTicker/>       },
-			{ path: 'main/more',         element: <MainMore/>         },
-			{ path: 'main/news',         element: <MainNews/>         },
-			{ path: 'main/partners',     element: <MainPartners/>     },
+			{ path: 'main/banner',            element: <MainBanner/>      },
+			{ path: 'main/ticker',            element: <MainTicker/>      },
+			{ path: 'main/more',              element: <MainMore/>        },
+			{ path: 'main/news',              element: <MainNews/>        },
+			{ path: 'main/partners',          element: <MainPartners/>    },
 
-			{ path: 'about/banner',      element: <AboutBanner/>      },
-			{ path: 'about/ticker',      element: <AboutTicker/>      },
-			{ path: 'about/members',     element: <AboutMembers/>     },
-			{ path: 'about/calls',       element: <AboutCalls/>       },
-			{ path: 'about/stages',      element: <AboutStages/>      },
-			{ path: 'about/gift',        element: <AboutGift/>        },
-			{ path: 'about/experts',     element: <AboutExperts/>     },
-			{ path: 'about/observers',   element: <AboutObservers/>   },
-			{ path: 'about/directorate', element: <AboutDirectorate/> },
-			{ path: 'about/stories',     element: <AboutStories/>     },
-			{ path: 'about/photos',      element: <AboutPhotos/>      },
+			{ path: 'about/find/banner',      element: <FindBanner/>      },
+			{ path: 'about/find/ticker',      element: <FindTicker/>      },
+			{ path: 'about/find/members',     element: <FindMembers/>     },
+			{ path: 'about/find/calls',       element: <FindCalls/>       },
+			{ path: 'about/find/stages',      element: <FindStages/>      },
+			{ path: 'about/find/gift',        element: <FindGift/>        },
+			{ path: 'about/find/experts',     element: <FindExperts/>     },
+			{ path: 'about/find/observers',   element: <FindObservers/>   },
+			{ path: 'about/find/directorate', element: <FindDirectorate/> },
+			{ path: 'about/find/stories',     element: <FindStories/>     },
+			{ path: 'about/find/photos',      element: <FindPhotos/>      },
 
-			{ path: 'teachers/banner',   element: <TeachersBanner/>   },
-			{ path: 'teachers/desc',     element: <TeachersDesc/>     },
-			{ path: 'teachers/club',     element: <TeachersClub/>     },
-			{ path: 'teachers/room',     element: <TeachersRoom/>     },
-			{ path: 'teachers/gallery',  element: <TeachersGallery/>  },
-			{ path: 'teachers/sta',      element: <TeachersSta/>      },
+			{ path: 'about/support/banner',   element: <SupportBanner/>   },
+			{ path: 'about/support/grants',   element: <SupportGrants/>   },
+			{ path: 'about/support/projects', element: <SupportProjects/> },
+			{ path: 'about/support/sta1',     element: <SupportSta1/>     },
+			{ path: 'about/support/music',    element: <SupportMusic/>    },
+			{ path: 'about/support/trips',    element: <SupportTrips/>    },
+			{ path: 'about/support/sta2',     element: <SupportSta2/>     },
+
+			{ path: 'about/mentor/banner',    element: <MentorBanner/>    },
+			{ path: 'about/mentor/school',    element: <MentorSchool/>    },
+
+			{ path: 'teachers/banner',        element: <TeachersBanner/>  },
+			{ path: 'teachers/desc',          element: <TeachersDesc/>    },
+			{ path: 'teachers/club',          element: <TeachersClub/>    },
+			{ path: 'teachers/room',          element: <TeachersRoom/>    },
+			{ path: 'teachers/gallery',       element: <TeachersGallery/> },
+			{ path: 'teachers/sta',           element: <TeachersSta/>     },
 		]},
 
 		{ path: 'login', element: <Login/> },

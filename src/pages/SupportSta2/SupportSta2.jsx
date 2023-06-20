@@ -1,6 +1,7 @@
-import s from './TeachersSta.module.sass'
+import s from './SupportSta2.module.sass'
 import {useEffect, useState} from 'react'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
+import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 import SwitchInput from '../../components/ui/SwitchInput/SwitchInput.jsx'
 import EditImage from '../../components/ui/EditImage/EditImage.jsx'
 import redBg from '../../../public/assets/images/redBg.png'
@@ -16,7 +17,7 @@ const switchData = [
 ]
 
 
-const TeachersSta = () => {
+const SupportSta2 = () => {
 
 
     const [isOpenAside, setIsOpenAside] = useState(false)
@@ -128,4 +129,4 @@ const TeachersSta = () => {
 }
 
 
-export default TeachersSta
+export default SupportSta2

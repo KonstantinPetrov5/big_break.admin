@@ -1,6 +1,7 @@
-import s from './TeachersSta.module.sass'
+import s from './MentorBanner.module.sass'
 import {useEffect, useState} from 'react'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
+import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 import SwitchInput from '../../components/ui/SwitchInput/SwitchInput.jsx'
 import EditImage from '../../components/ui/EditImage/EditImage.jsx'
 import redBg from '../../../public/assets/images/redBg.png'
@@ -16,7 +17,7 @@ const switchData = [
 ]
 
 
-const TeachersSta = () => {
+const MentorBanner = () => {
 
 
     const [isOpenAside, setIsOpenAside] = useState(false)
@@ -27,6 +28,7 @@ const TeachersSta = () => {
     const [loadedImg, setLoadedImg] = useState('')
 
     const [title, setTitle] = useState('')
+    const [desc, setDesc] = useState('')
     const [button, setButton] = useState('')
     const [img, setImg] = useState('')
     const [bg, setBg] = useState('')
@@ -35,11 +37,13 @@ const TeachersSta = () => {
         setLoadedImg('')
     }, [isOpenAside] )
 
+
     useEffect( () => {
         setIsLoading(false) // отключает загрузку, пока не подключены api
         // axiosAuth('/banner?type=home')
         //     .then(({data})=> {
         //         setTitle(data.title || '')
+        //         setDesc(data.description || '')
         //         setButton(data.button || '')
         //         setImg(data.cut_image || '')
         //         setBg(data.background_image || '')
@@ -55,6 +59,7 @@ const TeachersSta = () => {
         // const queryData = {
         //     type: 'home',
         //     title: title || null,
+        //     description: desc || null,
         //     button: button || null,
         //     is_background: switchPos==='bg',
         //     cut_image: img || null,
@@ -66,6 +71,7 @@ const TeachersSta = () => {
         //     .finally(()=>setBtnLoading(false))
 
     }
+
 
     const imgHandler = type => {
         if (type==='save') {
@@ -82,9 +88,17 @@ const TeachersSta = () => {
 
         <section className={ s.container }>
 
-            <h1>СТА</h1>
+            <h1>Баннер</h1>
 
-            <TextInput value={title} onChange={e=>setTitle(e.target.value)} label='Заголовок' className={ s.title }/>
+            <TextInput value={title} onChange={e=>setTitle(e.target.value)} label='Заголовок'/>
+
+            <TextAreaInput
+                className={ s.desc }
+                value={desc}
+                onChange={e=>setDesc(e.target.value)}
+                label='Description'
+                minRows={2}
+            />
 
             <TextInput value={button} onChange={e=>setButton(e.target.value)} label='Кнопка'/>
 
@@ -128,4 +142,4 @@ const TeachersSta = () => {
 }
 
 
-export default TeachersSta
+export default MentorBanner

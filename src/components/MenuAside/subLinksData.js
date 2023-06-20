@@ -1,42 +1,72 @@
 export const subLinksData = [
     {
-        id: '1e62de8c',
+        id: '1',
         label: 'Главная',
+        isGroup: false,
         list: [
-            { id: '26285caa', icon: 'banner',              link: 'main/banner',       label: 'Баннер' },
-            { id: '28ecc048', icon: 'ticker',              link: 'main/ticker',       label: 'Бегущая строка' },
-            { id: '4e4de645', icon: 'cup',                 link: 'main/more',         label: 'Подробнее о конкурсе' },
-            { id: 'ac54dee0', icon: 'news',                link: 'main/news',         label: 'Новости' },
-            { id: '1e684cbb', icon: 'partners',            link: 'main/partners',     label: 'Партнеры' },
+            { id: '2', icon: 'banner',   link: 'main/banner',   label: 'Баннер' },
+            { id: '3', icon: 'ticker',   link: 'main/ticker',   label: 'Бегущая строка' },
+            { id: '4', icon: 'cup',      link: 'main/more',     label: 'Подробнее о конкурсе' },
+            { id: '5', icon: 'news',     link: 'main/news',     label: 'Новости' },
+            { id: '6', icon: 'partners', link: 'main/partners', label: 'Партнеры' },
         ]
     },
     {
-        id: '22d4c660',
+        id: '7',
         label: 'О конкурсе',
+        isGroup: true,
         list: [
-            { id: '2c583ab3', icon: 'banner',              link: 'about/banner',      label: 'Баннер' },
-            { id: '350183f5', icon: 'ticker',              link: 'about/ticker',      label: 'Бегущая строка' },
-            { id: '7c69bf66', icon: 'members',             link: 'about/members',     label: 'Участники' },
-            { id: '42f6abfd', icon: 'calls',               link: 'about/calls',       label: 'Вызовы' },
-            { id: '2f10ced7', icon: 'stages',              link: 'about/stages',      label: 'Этапы конкурса' },
-            { id: '9f7906d7', icon: 'gift',                link: 'about/gift',        label: 'Призовой фонд' },
-            { id: '43c61769', icon: 'expertCouncil',       link: 'about/experts',     label: 'Экспертный совет' },
-            { id: '64b79f7f', icon: 'supervisoryBoard',    link: 'about/observers',   label: 'Наблюдательный совет' },
-            { id: '1d36bc79', icon: 'childrenDirectorate', link: 'about/directorate', label: 'Детская дирекция' },
-            { id: 'faa07b6b', icon: 'successStories',      link: 'about/stories',     label: 'Истории успеха' },
-            { id: 'b4f39fa1', icon: 'photos',              link: 'about/photos',      label: 'Фотогалерея' },
+            {
+                id: '8',
+                label: 'Найди себя',
+                list: [
+                    { id: '9',  icon: 'banner',              link: 'about/find/banner',      label: 'Баннер' },
+                    { id: '10', icon: 'ticker',              link: 'about/find/ticker',      label: 'Бегущая строка' },
+                    { id: '11', icon: 'members',             link: 'about/find/members',     label: 'Участники' },
+                    { id: '12', icon: 'calls',               link: 'about/find/calls',       label: 'Вызовы' },
+                    { id: '13', icon: 'stages',              link: 'about/find/stages',      label: 'Этапы конкурса' },
+                    { id: '14', icon: 'gift',                link: 'about/find/gift',        label: 'Призовой фонд' },
+                    { id: '15', icon: 'expertCouncil',       link: 'about/find/experts',     label: 'Экспертный совет' },
+                    { id: '16', icon: 'supervisoryBoard',    link: 'about/find/observers',   label: 'Наблюдательный совет' },
+                    { id: '17', icon: 'childrenDirectorate', link: 'about/find/directorate', label: 'Детская дирекция' },
+                    { id: '18', icon: 'successStories',      link: 'about/find/stories',     label: 'Истории успеха' },
+                    { id: '19', icon: 'photos',              link: 'about/find/photos',      label: 'Фотогалерея' },
+                ]
+            },
+            {
+                id: '20',
+                label: 'Получи поддержку',
+                list: [
+                    { id: '21', icon: 'banner',              link: 'about/support/banner',   label: 'Баннер' },
+                    { id: '22', icon: 'award',               link: 'about/support/grants',   label: 'Росмолодеж гранты' },
+                    { id: '23', icon: 'handshake',           link: 'about/support/projects', label: 'Партнерские проекты' },
+                    { id: '24', icon: 'select',              link: 'about/support/sta1',     label: 'СТА 1' },
+                    { id: '25', icon: 'note',                link: 'about/support/music',    label: 'Большая перемена музыка' },
+                    { id: '26', icon: 'globe',               link: 'about/support/trips',    label: 'Путешествия с большой переменой' },
+                    { id: '27', icon: 'select',              link: 'about/support/sta2',     label: 'СТА 2' }
+                ]
+            },
+            {
+                id: '28',
+                label: 'Найди наставника',
+                list: [
+                    { id: '29', icon: 'banner',              link: 'about/mentor/banner',    label: 'Баннер' },
+                    { id: '30', icon: 'school',              link: 'about/mentor/school',    label: 'Измени свою школу' }
+                ]
+            }
         ]
     },
     {
-        id: 'hf921jd8',
+        id: '31',
         label: 'Для педагогов',
+        isGroup: false,
         list: [
-            { id: 'kd8283jc', icon: 'banner',              link: 'teachers/banner',   label: 'Баннер' },
-            { id: 'gc926dfj', icon: 'desc',                link: 'teachers/desc',     label: 'Описание' },
-            { id: 'nv0o18ef', icon: 'keys',                link: 'teachers/club',     label: 'Как открыть клуб большой перемены' },
-            { id: 'i17egv0w', icon: 'books',               link: 'teachers/room',     label: 'Учительская большой перемены' },
-            { id: '61hv9821', icon: 'photos',              link: 'teachers/gallery',  label: 'Галерея' },
-            { id: '1fy219du', icon: 'select',              link: 'teachers/sta',      label: 'СТА' },
+            { id: '32', icon: 'banner', link: 'teachers/banner',  label: 'Баннер' },
+            { id: '33', icon: 'desc',   link: 'teachers/desc',    label: 'Описание' },
+            { id: '34', icon: 'keys',   link: 'teachers/club',    label: 'Как открыть клуб большой перемены' },
+            { id: '35', icon: 'books',  link: 'teachers/room',    label: 'Учительская большой перемены' },
+            { id: '36', icon: 'photos', link: 'teachers/gallery', label: 'Галерея' },
+            { id: '37', icon: 'select', link: 'teachers/sta',     label: 'СТА' },
         ]
     }
 ]
