@@ -194,11 +194,11 @@ const FindDirectorate = () => {
     }
 
     const saveNewPosition = e => {
-        // const id = e.active.id
-        // const new_position = e.over.data.current.sortable.index + 1
-        // axiosAuth.post('about/directorate/position', { id, new_position })
-        //     .then( () => toast.success('Данные сохранены') )
-        //     .catch(()=>toast.error('Произошла ошибка'))
+        const id = e.active.id
+        const new_position = e.over.data.current.sortable.index + 1
+        axiosAuth.post('/about/directorate/group/position', { id, new_position })
+            .then( () => toast.success('Данные сохранены') )
+            .catch(()=>toast.error('Произошла ошибка'))
     }
 
 
