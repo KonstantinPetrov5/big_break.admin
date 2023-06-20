@@ -50,7 +50,7 @@ const FindStages = () => {
 
 
     useEffect( () => {
-        if (activeTab) {
+        if (activeTab!==null) {
             const currentCategory = categoryList.find(obj=>obj.id===activeTab)
             setStagesList(currentCategory.items)
         }

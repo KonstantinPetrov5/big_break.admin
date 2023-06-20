@@ -112,6 +112,7 @@ const SupportProjects = () => {
             <Separator className={ s.separator }/>
             <h1>Изменить описание</h1>
             <TextAreaInput label='Описание' minRows={2}/>
+            <Separator className={ s.separator }/>
             <div className={ s.buttons }>
                 <Button save isLoading={btnLoading}>
                     Сохранить

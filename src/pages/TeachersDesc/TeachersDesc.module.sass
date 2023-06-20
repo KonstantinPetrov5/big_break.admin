@@ -1,0 +1,35 @@
+.container
+  max-width: 600px
+
+.descInput
+  margin-bottom: 50px
+
+.list
+  margin: 30px 0 40px
+  display: flex
+  flex-direction: column
+  gap: 20px
+  padding: 20px
+  background-color: #FFFFFF
+  box-shadow: 0 5px 10px rgba(#000, .05)
+  border-radius: 10px
+  li
+    display: flex
+    align-items: center
+    gap: 20px
+    .number
+      width: 130px
+    svg
+      padding: 10px
+      box-sizing: content-box
+      min-width: 24px
+      margin: 0 -10px -25px
+      cursor: pointer
+      &:hover
+        opacity: 0.7
+
+@media(max-width: 360px)
+  .list
+    padding: 10px
+    li
+      gap: 10px

@@ -1,0 +1,46 @@
+.container
+  max-width: 600px
+
+.categoryContainer
+  margin: 30px 0 40px
+  width: 100%
+  padding: 5px
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  align-items: center
+  background-color: #F5F5F5
+  border-radius: 10px
+
+.addBtns
+  margin-bottom: 30px
+  width: 100%
+  display: flex
+  gap: 40px
+  span:last-of-type
+    display: none
+
+.separator
+  margin: 40px 0
+
+.videoTitle
+  margin-bottom: 20px
+
+.buttons
+  display: flex
+  gap: 40px
+  margin-top: 50px
+  width: 100%
+  max-width: 560px
+
+
+@media (max-width: 479px)
+  .buttons
+    gap: 20px
+  .addBtns
+    gap: 10px
+    span
+      &:first-of-type
+        display: none
+      &:last-of-type
+        display: block
