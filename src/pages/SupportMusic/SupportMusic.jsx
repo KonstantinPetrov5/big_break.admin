@@ -33,7 +33,7 @@ const SupportMusic = () => {
       video: video || null,
       button: button || null,
     };
-    console.log(queryData);
+
     axiosAuth
       .put('/support/music/update', queryData)
       .then(() => toast.success('Данные сохранены'))

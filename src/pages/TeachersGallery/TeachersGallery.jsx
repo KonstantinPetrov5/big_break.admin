@@ -12,6 +12,8 @@ import EditAside from '../../components/EditAside/EditAside.jsx'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
+import {axiosAuth} from '../../utils/axiosInstance.js'
+import toast from 'react-hot-toast'
 
 
 const testData = [
@@ -77,6 +79,19 @@ const TeachersGallery = () => {
         } )
         setCategoryList(newList)
     }, [photoList] ) // при изменении photoList меняет исходный categoryList
+
+    useEffect( () =>   {
+        axiosAuth('/about/steps')
+            .then( ({data}) => {
+                // setDescription(data.description)
+                // setCategoryList(data.items)
+                // setStagesList(data.items[0].items)
+                // setActiveTab(data.items[0].id)
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setIsLoading(false))
+    }, [] )
+
 
 
     const editHandler = (id, type) => {

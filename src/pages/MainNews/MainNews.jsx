@@ -14,11 +14,13 @@ import DateInput from '../../components/ui/DateInput/DateInput.jsx'
 import {axiosAuth} from '../../utils/axiosInstance.js'
 import toast from 'react-hot-toast'
 import {getUnixTime, startOfToday} from 'date-fns'
+import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 
 
 const defaultData = {
         image: '',
         title: '',
+        description: '',
         date: getUnixTime(startOfToday())
     }
 
@@ -32,7 +34,7 @@ const MainNews = () => {
 
     const [editData, setEditData] = useState({})
     const [isNew, setIsNew] = useState(true)
-
+    console.log('list: ', list)
 
     useEffect( () => {
         axiosAuth('/news')
@@ -62,6 +64,7 @@ const MainNews = () => {
                 title: editData.title || null,
                 image: editData.image || null,
                 date: editData.date || null,
+                description: editData.description || null,
             }
             axiosAuth.post('/news/create', queryData)
                 .then(({data})=> {
@@ -76,6 +79,7 @@ const MainNews = () => {
                 title: editData.title || null,
                 image: editData.image || null,
                 date: editData.date,
+                description: editData.description || null,
             }
             axiosAuth.put('/news/update', queryData)
                 .then(()=> {
@@ -102,14 +106,6 @@ const MainNews = () => {
             .catch(()=>toast.error('Произошла ошибка'))
     }
 
-    const saveNewPosition = e => {
-        const id = e.active.id
-        const new_position = e.over.data.current.sortable.index + 1
-        axiosAuth.post('home/news/position', { id, new_position })
-            .then( () => toast.success('Данные сохранены') )
-            .catch(()=>toast.error('Произошла ошибка'))
-    }
-
 
     if (isLoading) return <h1>Загрузка...</h1>
     return <>
@@ -121,21 +117,11 @@ const MainNews = () => {
             <Button className={ s.btn } add onClick={ ()=>addHandler() }>Добавить</Button>
 
             <ul className={ s.list }>
-                <DndContext
-                    onDragEnd={ e => {
-                        dndHandlers(e, list, setList)
-                        saveNewPosition(e)
-                    } }
-                    modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-                >
-                    <SortableContext items={list} strategy={verticalListSortingStrategy}>
-                        {
-                            list.map( (item, i) =>
-                                <NewsItem key={item.id} {...{item, i, editHandler, deleteHandler }}/>
-                            )
-                        }
-                    </SortableContext>
-                </DndContext>
+                {
+                    list.map( (item, i) =>
+                        <NewsItem key={item.id} {...{item, i, editHandler, deleteHandler }}/>
+                    )
+                }
             </ul>
 
         </section>
@@ -153,6 +139,14 @@ const MainNews = () => {
                 value={ editData.title }
                 onChange={ e => setEditData({...editData, title: e.target.value }) }
                 label='Имя'
+            />
+            <Separator className={ s.separator }/>
+            <h1>Описание статьи</h1>
+            <TextAreaInput
+                value={ editData.description }
+                onChange={ e => setEditData({...editData, description: e.target.value }) }
+                label='Описание'
+                minRows={2}
             />
             <Separator className={ s.separator }/>
             <h1>Изменить дату</h1>
