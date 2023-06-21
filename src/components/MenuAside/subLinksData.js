@@ -21,7 +21,7 @@ export const subLinksData = [
                 label: 'Найди себя',
                 list: [
                     { id: '9',  icon: 'banner',              link: 'about/find/banner',      label: 'Баннер' },
-                    { id: '10', icon: 'ticker',              link: 'about/find/ticker',      label: 'Бегущая строка' },
+                    // { id: '10', icon: 'ticker',              link: 'about/find/ticker',      label: 'Бегущая строка' },
                     { id: '11', icon: 'members',             link: 'about/find/members',     label: 'Участники' },
                     { id: '12', icon: 'calls',               link: 'about/find/calls',       label: 'Вызовы' },
                     { id: '13', icon: 'stages',              link: 'about/find/stages',      label: 'Этапы конкурса' },

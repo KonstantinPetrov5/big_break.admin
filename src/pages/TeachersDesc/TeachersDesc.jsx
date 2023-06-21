@@ -3,7 +3,6 @@ import {useState} from 'react'
 import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
-import {TrashIcon} from '../../../public/assets/jsxIcons/TrashIcon.jsx'
 
 
 const testData = {

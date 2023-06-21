@@ -19,6 +19,7 @@ import FileInput from '../../components/ui/FileInput/FileInput.jsx';
 import Separator from '../../components/ui/Separator/Separator.jsx';
 import TextInput from '../../components/ui/TextInput/TextInput.jsx';
 import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx';
+import TickerItem from '../../components/TickerItem/TickerItem.jsx'
 
 const defaultData = {
   title: '',
@@ -170,19 +171,34 @@ const SupportProjects = () => {
           setValue={(icon) => setEditData({ ...editData, icon })}
         />
         <Separator className={s.separator} />
-        <FileInput
-          label="Загрузка фото"
-          value={editData.image}
-          setValue={(image) =>
-            setEditData({
-              ...editData,
-              images: 
-                [{
-                  image: image,
-                }],
-            })
-          }
-        />
+        {/*<FileInput*/}
+        {/*  label="Загрузка фото"*/}
+        {/*  value={editData.image}*/}
+        {/*  setValue={(image) =>*/}
+        {/*    setEditData({*/}
+        {/*      ...editData,*/}
+        {/*      images: */}
+        {/*        [{*/}
+        {/*          image: image,*/}
+        {/*        }],*/}
+        {/*    })*/}
+        {/*  }*/}
+        {/*/>*/}
+        <FileInput label='Загрузка фото'/>
+        <DndContext
+            onDragEnd={ e => dndHandlers(e, list, setList) }
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        >
+          <SortableContext items={list} strategy={verticalListSortingStrategy}>
+            <ul className={ s.list }>
+              {
+                [].map( (item, i) =>
+                    <TickerItem key={i} {...{item, i, deleteHandler}}/>
+                )
+              }
+            </ul>
+          </SortableContext>
+        </DndContext>
         <Separator className={s.separator} />
         <h1>Изменить заголовок</h1>
         <TextInput
