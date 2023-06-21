@@ -24,8 +24,9 @@ import { axiosAuth } from '../../utils/axiosInstance.js';
 import toast from 'react-hot-toast';
 
 const defaultData = {
+  id: '1',
   description: 'test',
-  hidenDescription: 'ttte',
+  tooltip: 'ttte',
   color: '#4B21B1',
 };
 
@@ -36,11 +37,7 @@ const SupportGrants = () => {
   const [btnLoading, setBtnLoading] = useState(false);
 
   const [photoList, setPhotoList] = useState([]);
-  const [textList, setTextList] = useState([
-    { id: 1, description: 'текст' },
-    { id: 2, description: 'текст' },
-    { id: 3, description: 'текст' },
-  ]);
+  const [textList, setTextList] = useState([]);
 
   const [btnLoadSubtitle, setBtnLoadSubtitle] = useState(false);
   const [description, setDescription] = useState('');
@@ -60,6 +57,7 @@ const SupportGrants = () => {
         setTest1(data.text_1);
         setTest2(data.text_2);
         setPhotoList(data.images);
+        setTextList(data.items);
       })
       .catch(() => toast.error('Произошла ошибка'))
       .finally(() => setIsLoading(false));
@@ -120,21 +118,30 @@ const SupportGrants = () => {
 
   const editHandler = (id) => {
     setEditData(textList.find((obj) => obj.id === id));
+
     setIsOpenAsideDesc(true);
   };
-
 
   const saveHandler = () => {
     setBtnLoadSubtitle(true);
 
-    const queryData = {
-      id: editData.id,
+    const newItem = {
       description: editData.description || null,
-      hiden_description: editData.hidenDescription || null,
+      tooltip: editData.tooltip || null,
+      color: editData.color || '#4B21B1',
     };
+
+    const updatedItems = textList.map((item) =>
+      item.id === editData.id ? newItem : item
+    );
+
+    const queryData = {
+      items: updatedItems,
+    };
+
     console.log(queryData);
     axiosAuth
-      .put('/support/grants/items', { queryData })
+      .put('/support/grants/items', queryData)
       .then(() => {
         const newList = textList.map((obj) =>
           obj.id === editData.id ? editData : obj
@@ -143,7 +150,8 @@ const SupportGrants = () => {
         toast.success('Данные сохранены');
       })
       .catch(() => toast.error('Произошла ошибка'))
-      .finally(() => setBtnLoadSubtitle(false));
+      .finally(() => setBtnLoadSubtitle(false)),
+      setIsOpenAsideDesc(false);
   };
 
   if (isLoading) return <h1>Загрузка...</h1>;
@@ -198,10 +206,7 @@ const SupportGrants = () => {
           >
             <ul className={s.list}>
               {photoList.map((item, i) => (
-                <TickerItem
-                  key={item.id}
-                  {...{ item, i, deleteHandler }}
-                />
+                <TickerItem key={item.id} {...{ item, i, deleteHandler }} />
               ))}
             </ul>
           </SortableContext>
@@ -209,10 +214,10 @@ const SupportGrants = () => {
 
         <ul className={s.list}>
           {textList.map((item, i) => (
-            <li key={item.id} {...{ item, i, editHandler }} className={s.item}>
+            <li key={item.id} className={s.item}>
               <span>{i + 1}</span>
               <p className={s.title}>{item.description}</p>
-              <EditIcon onClick={() => setIsOpenAsideDesc(true)} />
+              <EditIcon onClick={() => editHandler(item.id)} />{' '}
             </li>
           ))}
         </ul>
@@ -263,15 +268,16 @@ const SupportGrants = () => {
               setEditData({ ...editData, description: e.target.value })
             }
           />
-          <TextInput
-            label="1.2 Скрытое описание"
-            value={editData.hidenDescription}
-            onChange={(e) =>
-              setEditData({ ...editData, hidenDescription: e.target.value })
-            }
-          />{' '}
-          {/*Скрытое описание показываем, только на первой карточке*/}
-          <h2>Изменить цвет</h2>
+          {editData.id > 1 ? null : (
+            <TextInput
+              label="1.2 Скрытое описание"
+              value={editData.tooltip}
+              onChange={(e) =>
+                setEditData({ ...editData, tooltip: e.target.value })
+              }
+            />
+          )}
+          <h2 style={{ marginTop: 30 }}>Изменить цвет</h2>
           <ColorSelect
             state={editData.color}
             setState={(clr) => setEditData({ ...editData, color: clr })}
