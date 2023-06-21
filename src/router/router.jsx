@@ -61,21 +61,21 @@ export const Router = createBrowserRouter([{
 			{ path: 'about/find/photos',      element: <FindPhotos/>      },
 
 			{ path: 'about/support/banner',   element: <SupportBanner/>   },
-			{ path: 'about/support/grants',   element: <SupportGrants/>   },
-			{ path: 'about/support/projects', element: <SupportProjects/> },
-			{ path: 'about/support/sta1',     element: <SupportSta1/>     },
-			{ path: 'about/support/music',    element: <SupportMusic/>    },
-			{ path: 'about/support/trips',    element: <SupportTrips/>    },
-			{ path: 'about/support/sta2',     element: <SupportSta2/>     },
+			{ path: 'about/support/grants',   element: <SupportGrants/>   }, // halfready
+			{ path: 'about/support/projects', element: <SupportProjects/> },	// not ready
+			{ path: 'about/support/sta1',     element: <SupportSta1/>     },	
+			{ path: 'about/support/music',    element: <SupportMusic/>    }, // not ready
+			{ path: 'about/support/trips',    element: <SupportTrips/>    }, // not ready
+			{ path: 'about/support/sta2',     element: <SupportSta2/>     }, 
 
 			{ path: 'about/mentor/banner',    element: <MentorBanner/>    },
-			{ path: 'about/mentor/school',    element: <MentorSchool/>    },
+			{ path: 'about/mentor/school',    element: <MentorSchool/>    }, // not ready
 
-			{ path: 'teachers/banner',        element: <TeachersBanner/>  },
-			{ path: 'teachers/desc',          element: <TeachersDesc/>    },
-			{ path: 'teachers/club',          element: <TeachersClub/>    },
-			{ path: 'teachers/room',          element: <TeachersRoom/>    },
-			{ path: 'teachers/gallery',       element: <TeachersGallery/> },
+			{ path: 'teachers/banner',        element: <TeachersBanner/>  }, 
+			{ path: 'teachers/desc',          element: <TeachersDesc/>    }, // not ready
+			{ path: 'teachers/club',          element: <TeachersClub/>    }, // not ready
+			{ path: 'teachers/room',          element: <TeachersRoom/>    }, // not ready
+			{ path: 'teachers/gallery',       element: <TeachersGallery/> }, // not ready
 			{ path: 'teachers/sta',           element: <TeachersSta/>     },
 		]},
 

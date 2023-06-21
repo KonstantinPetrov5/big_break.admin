@@ -12,7 +12,7 @@ import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 const SupportMusic = () => {
 
 
-    const [isOpenAside, setIsOpenAside] = useState(false)
+
     const [isLoading, setIsLoading] = useState(false)
     const [btnLoading, setBtnLoading] = useState(false)
 

@@ -9,7 +9,8 @@ import Button from '../../components/ui/Button/Button.jsx'
 import EditAside from '../../components/EditAside/EditAside.jsx'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
-
+import {axiosAuth} from '../../utils/axiosInstance.js'
+import toast from 'react-hot-toast'
 
 const switchData = [
     { label: 'Изображение', value: 'img' },
@@ -38,36 +39,35 @@ const SupportBanner = () => {
     }, [isOpenAside] )
 
     useEffect( () => {
-        setIsLoading(false) // отключает загрузку, пока не подключены api
-        // axiosAuth('/banner?type=home')
-        //     .then(({data})=> {
-        //         setTitle(data.title || '')
-        //         setDesc(data.description || '')
-        //         setButton(data.button || '')
-        //         setImg(data.cut_image || '')
-        //         setBg(data.background_image || '')
-        //         setSwitchPos(data.is_background ? 'bg' : 'img')
-        //     })
-        //     .catch(()=>toast.error('Произошла ошибка'))
-        //     .finally(()=>setIsLoading(false))
+        axiosAuth('/banner?type=support')
+            .then(({data})=> {
+                setTitle(data.title || '')
+                setDesc(data.description || '')
+                setButton(data.button || '')
+                setImg(data.cut_image || '')
+                setBg(data.background_image || '')
+                setSwitchPos(data.is_background ? 'bg' : 'img')
+            })
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setIsLoading(false))
     }, [] )
 
     const submitHandler = () => {
-        // setBtnLoading(true)
-        //
-        // const queryData = {
-        //     type: 'home',
-        //     title: title || null,
-        //     description: desc || null,
-        //     button: button || null,
-        //     is_background: switchPos==='bg',
-        //     cut_image: img || null,
-        //     background_image: bg || null
-        // }
-        // axiosAuth.put('/banner/update', queryData)
-        //     .then(()=>toast.success('Данные сохранены'))
-        //     .catch(()=>toast.error('Произошла ошибка'))
-        //     .finally(()=>setBtnLoading(false))
+        setBtnLoading(true)
+        
+        const queryData = {
+            type: 'support',
+            title: title || null,
+            description: desc || null,
+            button: button || null,
+            is_background: switchPos==='bg',
+            cut_image: img || null,
+            background_image: bg || null
+        }
+        axiosAuth.put('/banner/update', queryData)
+            .then(()=>toast.success('Данные сохранены'))
+            .catch(()=>toast.error('Произошла ошибка'))
+            .finally(()=>setBtnLoading(false))
 
     }
 
