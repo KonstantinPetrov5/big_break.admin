@@ -43,7 +43,6 @@ const TeachersDesc = () => {
                         <li key={id}>
                             <TextInput className={ s.number } label='Цифра'/>
                             <TextInput label='Описание'/>
-                            <TrashIcon/>
                         </li>
                     )
                 }

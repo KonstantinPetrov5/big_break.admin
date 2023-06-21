@@ -1,5 +1,5 @@
 import s from './FindDirectorate.module.sass'
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx'
 import Button from '../../components/ui/Button/Button.jsx'
 import {DndContext} from '@dnd-kit/core'
@@ -37,8 +37,9 @@ const FindDirectorate = () => {
     const [description, setDescription] = useState('')
 
     const [editData, setEditData] = useState(defaultDataMember)
-    const [groupId, setGroupId] = useState(null)
     const [isNew, setIsNew] = useState(true)
+    
+    const groupId = useRef(null)
 
 
     useEffect( () => {
@@ -79,7 +80,8 @@ const FindDirectorate = () => {
             setIsOpenAsideTitle(true)
         }
         if (type==='member') {
-            // setEditData(stagesList.find(obj=>obj.id===id))
+            const currentList = list.find(obj=>obj.id===groupId.current)
+            setEditData(currentList.items.find(obj=>obj.id===id))
             setIsOpenAsideMember(true)
         }
     }
@@ -119,12 +121,12 @@ const FindDirectorate = () => {
                 const queryData = {
                     title: editData.title || null,
                     image: editData.image || null,
-                    group_id: groupId
+                    group_id: groupId.current
                 }
                 axiosAuth.post('/about/directorate/item/create', queryData)
                     .then( ({data}) => {
                         const newList = list.map( group => {
-                            if (group.id===groupId) {
+                            if (group.id===groupId.current) {
                                 return { ...group, items: [data, ...group.items] }
                             } else {
                                 return group
@@ -140,17 +142,19 @@ const FindDirectorate = () => {
                     id: editData.id,
                     title: editData.title || null,
                     image: editData.image || null,
-                    group_id: groupId
+                    group_id: groupId.current
                 }
                 axiosAuth.put('/about/directorate/item/update', queryData)
                     .then( () => {
                         const newList = list.map( group => {
-                            if (group.id===groupId) {
-                                return group.map( item => item.id===editData.id ? editData : item )
+                            if (group.id===groupId.current) {
+                                const items = group.items.map( item => item.id===editData.id ? editData : item )
+                                return { ...group, items }
                             } else {
                                 return group
                             }
                         })
+                        console.log('newList: ', newList)
                         setList(newList)
                         toast.success('Данные сохранены')
                     })
@@ -180,7 +184,7 @@ const FindDirectorate = () => {
             axiosAuth.delete('/about/directorate/item/delete', { data: { id } })
                 .then(()=> {
                     const newList = list.map( group => {
-                        if (group.id===groupId) {
+                        if (group.id===groupId.current) {
                             return { ...group, items: group.items.filter(item => item.id!==id) }
                         } else {
                             return group
@@ -239,7 +243,7 @@ const FindDirectorate = () => {
                 <SortableContext items={list} strategy={verticalListSortingStrategy}>
                     {
                         list.map( (item, i) =>
-                            <DirectorateItem key={item.id} {...{item, i, editHandler, deleteHandler, addHandler, setGroupId}}/>
+                            <DirectorateItem key={item.id} {...{item, i, editHandler, deleteHandler, addHandler, groupId}}/>
                         )
                     }
                 </SortableContext>

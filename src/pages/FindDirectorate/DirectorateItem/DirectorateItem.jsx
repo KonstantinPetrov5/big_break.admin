@@ -10,7 +10,7 @@ import Button from '../../../components/ui/Button/Button.jsx'
 import {EditIcon} from '../../../../public/assets/jsxIcons/EditIcon.jsx'
 
 
-const DirectorateItem = ({item, i, editHandler, deleteHandler, addHandler, setGroupId}) => {
+const DirectorateItem = ({item, i, editHandler, deleteHandler, addHandler, groupId}) => {
 
 
     const {id, title, items} = item
@@ -53,13 +53,13 @@ const DirectorateItem = ({item, i, editHandler, deleteHandler, addHandler, setGr
                                             { !!item.image && <img src={item.image} alt='photo'/> }
                                         </div>
                                         <p className={ s.title }>{ item.title }</p>
-                                        <EditIcon onClick={ ()=> { editHandler(item.id, 'member'); setGroupId(id) }}/>
-                                        <TrashIcon onClick={()=> { deleteHandler(item.id, 'member'); setGroupId(id) }}/>
+                                        <EditIcon onClick={ ()=> { groupId.current = id; editHandler(item.id, 'member') }}/>
+                                        <TrashIcon onClick={()=> { groupId.current = id; deleteHandler(item.id, 'member') }}/>
                                     </li>
                                 )
                             }
                         </ul>
-                        <Button add onClick={()=> {addHandler('member'); setGroupId(id)}}>ДОБАВИТЬ</Button>
+                        <Button add onClick={()=> { groupId.current = id; addHandler('member') }}>ДОБАВИТЬ</Button>
                     </div>
                 </div>
             </div>

@@ -9,6 +9,7 @@ const DateInput = ({ value, onChange }) => {
 
     const currentValue = new Date(value*1000)
 
+    if (!value) return <></>
     return (
 
         <DayPicker
@@ -16,7 +17,7 @@ const DateInput = ({ value, onChange }) => {
             selected={ currentValue }
             onSelect={ date => onChange(getUnixTime(date)) }
             locale={ru}
-            // defaultMonth={ currentValue }
+            defaultMonth={ currentValue }
         />
 
     )
