@@ -62,10 +62,10 @@ export const Router = createBrowserRouter([{
 
 			{ path: 'about/support/banner',   element: <SupportBanner/>   },
 			{ path: 'about/support/grants',   element: <SupportGrants/>   }, 
-			{ path: 'about/support/projects', element: <SupportProjects/> },	// not ready
+			{ path: 'about/support/projects', element: <SupportProjects/> },	// halfready
 			{ path: 'about/support/sta1',     element: <SupportSta1/>     },	
 			{ path: 'about/support/music',    element: <SupportMusic/>    }, 
-			{ path: 'about/support/trips',    element: <SupportTrips/>    }, // not ready
+			{ path: 'about/support/trips',    element: <SupportTrips/>    }, // halfready
 			{ path: 'about/support/sta2',     element: <SupportSta2/>     }, 
 
 			{ path: 'about/mentor/banner',    element: <MentorBanner/>    },

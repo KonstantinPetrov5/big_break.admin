@@ -19,7 +19,7 @@ import FileInput from '../../components/ui/FileInput/FileInput.jsx';
 import Separator from '../../components/ui/Separator/Separator.jsx';
 import TextInput from '../../components/ui/TextInput/TextInput.jsx';
 import TextAreaInput from '../../components/ui/TextAreaInput/TextAreaInput.jsx';
-import TickerItem from '../../components/TickerItem/TickerItem.jsx'
+import TickerItem from '../../components/TickerItem/TickerItem.jsx';
 
 const defaultData = {
   title: '',
@@ -31,15 +31,21 @@ const defaultData = {
 
 const SupportProjects = () => {
   const [isOpenAside, setIsOpenAside] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
 
   const [list, setList] = useState([]);
+  const [listImages, setListImages] = useState([]);
 
   const [editData, setEditData] = useState({});
   const [isNew, setIsNew] = useState(true);
 
-  console.log(editData)
+  console.log(listImages);
+
+  useEffect(() => {
+    const extractedImages = list.map((item) => item.images);
+    setListImages(extractedImages);
+  }, [list]);
 
   useEffect(() => {
     axiosAuth('/support/projects')
@@ -71,18 +77,17 @@ const SupportProjects = () => {
         content: editData.content || null,
         link: editData.link || null,
         icon: editData.icon || null,
-        images: [{
-          image: editData.image || null,
-        }],
+        images: listImages || null,
       };
-      axiosAuth
-        .post('/support/projects/create', queryData)
-        .then(({ data }) => {
-          setList([data, ...list]);
-          toast.success('Данные сохранены');
-        })
-        .catch(() => toast.error('Произошла ошибка'))
-        .finally(() => setBtnLoading(false));
+      console.log(queryData);
+      // axiosAuth
+      //   .post('/support/projects/create', queryData)
+      //   .then(({ data }) => {
+      //     setList([data, ...list]);
+      //     toast.success('Данные сохранены');
+      //   })
+      //   .catch(() => toast.error('Произошла ошибка'))
+      //   .finally(() => setBtnLoading(false));
     } else {
       const queryData = {
         id: editData.id,
@@ -90,21 +95,20 @@ const SupportProjects = () => {
         subtitle: editData.subtitle || null,
         content: editData.content || null,
         description: editData.description || null,
-        images: [{
-          image: editData.image || null,
-        }],
+        images: listImages || null,
       };
-      axiosAuth
-        .put('/support/projects/update', queryData)
-        .then(() => {
-          const newList = list.map((obj) =>
-            obj.id === editData.id ? editData : obj
-          );
-          setList(newList);
-          toast.success('Данные сохранены');
-        })
-        .catch(() => toast.error('Произошла ошибка'))
-        .finally(() => setBtnLoading(false));
+      console.log(queryData);
+      // axiosAuth
+      //   .put('/support/projects/update', queryData)
+      //   .then(() => {
+      //     const newList = list.map((obj) =>
+      //       obj.id === editData.id ? editData : obj
+      //     );
+      //     setList(newList);
+      //     toast.success('Данные сохранены');
+      //   })
+      //   .catch(() => toast.error('Произошла ошибка'))
+      //   .finally(() => setBtnLoading(false));
     }
 
     setIsOpenAside(false);
@@ -171,31 +175,19 @@ const SupportProjects = () => {
           setValue={(icon) => setEditData({ ...editData, icon })}
         />
         <Separator className={s.separator} />
-        {/*<FileInput*/}
-        {/*  label="Загрузка фото"*/}
-        {/*  value={editData.image}*/}
-        {/*  setValue={(image) =>*/}
-        {/*    setEditData({*/}
-        {/*      ...editData,*/}
-        {/*      images: */}
-        {/*        [{*/}
-        {/*          image: image,*/}
-        {/*        }],*/}
-        {/*    })*/}
-        {/*  }*/}
-        {/*/>*/}
-        <FileInput label='Загрузка фото'/>
+        <FileInput label="Загрузка фото" />
         <DndContext
-            onDragEnd={ e => dndHandlers(e, list, setList) }
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          onDragEnd={(e) => dndHandlers(e, listImages, setListImages)}
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
         >
-          <SortableContext items={list} strategy={verticalListSortingStrategy}>
-            <ul className={ s.list }>
-              {
-                [].map( (item, i) =>
-                    <TickerItem key={i} {...{item, i, deleteHandler}}/>
-                )
-              }
+          <SortableContext
+            items={listImages}
+            strategy={verticalListSortingStrategy}
+          >
+            <ul className={s.list}>
+              {[listImages].map((item, i) => (
+                <TickerItem key={i} {...{ item, i, deleteHandler }} />
+              ))}
             </ul>
           </SortableContext>
         </DndContext>
