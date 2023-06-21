@@ -53,7 +53,7 @@ const MainTicker = () => {
         }
     }
 
-    const deleteHandler = id => {
+    const deleteTickerHandler = id => {
         const isConfirm = window.confirm('Удалить изображение?')
         if (!isConfirm) return
         axiosAuth.delete('runline/delete', { data: { id } })
@@ -73,7 +73,7 @@ const MainTicker = () => {
             .catch(()=>toast.error('Произошла ошибка'))
     }
 
-
+    console.log('list: ', list)
     if (isLoading) return <h1>Загрузка...</h1>
     return <>
 
@@ -95,7 +95,7 @@ const MainTicker = () => {
                     <ul className={ s.list }>
                         {
                             list.map( (item, i) =>
-                                <TickerItem key={item.id} {...{item, i, deleteHandler}}/>
+                                <TickerItem key={item.id} {...{item, i, deleteTickerHandler}}/>
                             )
                         }
                     </ul>

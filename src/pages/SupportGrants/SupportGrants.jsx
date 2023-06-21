@@ -139,7 +139,6 @@ const SupportGrants = () => {
       items: updatedItems,
     };
 
-    console.log(queryData);
     axiosAuth
       .put('/support/grants/items', queryData)
       .then(() => {
