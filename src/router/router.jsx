@@ -65,16 +65,16 @@ export const Router = createBrowserRouter([{
 			{ path: 'about/support/projects', element: <SupportProjects/> },	// halfready
 			{ path: 'about/support/sta1',     element: <SupportSta1/>     },	
 			{ path: 'about/support/music',    element: <SupportMusic/>    }, 
-			{ path: 'about/support/trips',    element: <SupportTrips/>    }, // halfready
+			{ path: 'about/support/trips',    element: <SupportTrips/>    }, // halfready The selected id is invalid
 			{ path: 'about/support/sta2',     element: <SupportSta2/>     }, 
 
 			{ path: 'about/mentor/banner',    element: <MentorBanner/>    },
-			{ path: 'about/mentor/school',    element: <MentorSchool/>    }, // not ready
+			{ path: 'about/mentor/school',    element: <MentorSchool/>    }, // halfready id по порядку идту в картинках
 
 			{ path: 'teachers/banner',        element: <TeachersBanner/>  }, 
-			{ path: 'teachers/desc',          element: <TeachersDesc/>    }, // not ready
-			{ path: 'teachers/club',          element: <TeachersClub/>    }, // not ready
-			{ path: 'teachers/room',          element: <TeachersRoom/>    }, // not ready
+			{ path: 'teachers/desc',          element: <TeachersDesc/>    },
+			{ path: 'teachers/club',          element: <TeachersClub/>    },
+			{ path: 'teachers/room',          element: <TeachersRoom/>    }, 
 			{ path: 'teachers/gallery',       element: <TeachersGallery/> }, // not ready
 			{ path: 'teachers/sta',           element: <TeachersSta/>     },
 		]},

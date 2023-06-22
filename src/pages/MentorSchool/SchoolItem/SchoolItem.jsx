@@ -10,29 +10,29 @@ import {TrashIcon} from '../../../../public/assets/jsxIcons/TrashIcon.jsx'
 const SchoolItem = ({item, i, editHandler, deleteHandler}) => {
 
 
-    const {id, photos, title, description} = item
+    const { id, images, title, description } = item;
 
-    const sortable = useSortable({ id })
-    const {setNodeRef, listeners} = sortable
-
-
+    const sortable = useSortable({ id });
+    const { setNodeRef, listeners } = sortable;
+  
     return (
-
-        <li className={ s.item } style={ dndStyleContainer(sortable) } ref={ setNodeRef }>
-            { i!==0 && <Separator className={ s.separator }/> }
-            <span>{ i+1 }</span>
-            <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
-            <div className={ s.img }>
-                { !!photos.length && <img src={photos[0].image} alt='photo'/> }
-            </div>
-            <p className={ s.title }>{ title }</p>
-            <p className={ s.desc }>{ description }</p>
-            <EditIcon className={ s.editIcon } onClick={()=>editHandler(id)}/>
-            <TrashIcon onClick={ ()=>deleteHandler(id) }/>
-        </li>
-
-    )
-}
-
+      <li className={s.item} style={dndStyleContainer(sortable)} ref={setNodeRef}>
+        {i !== 0 && <Separator className={s.separator} />}
+        <span>{i + 1}</span>
+        <DnDIcon {...listeners} style={dndStyleItem(sortable)} />
+        <div className={s.img}>
+          {images &&
+            images.map((image) => (
+              <img key={image.id} src={image.image} alt="photo" />
+            ))}
+        </div>
+        <p className={s.title}>{title}</p>
+        <p className={s.desc}>{description}</p>
+        <EditIcon className={s.editIcon} onClick={() => editHandler(id)} />
+        <TrashIcon onClick={() => deleteHandler(id)} />
+      </li>
+    );
+  };
+  
 
 export default SchoolItem
