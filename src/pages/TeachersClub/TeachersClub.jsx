@@ -147,7 +147,7 @@ const TeachersClub = () => {
             <TextInput
                 value={text}
                 onChange={e=>setText(e.target.value)}
-                label='Текст'
+                label='Кнопка'
                 className={ s.textInput }
             />
 

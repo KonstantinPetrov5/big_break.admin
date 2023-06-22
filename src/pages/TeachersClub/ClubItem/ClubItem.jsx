@@ -10,7 +10,7 @@ import {TrashIcon} from '../../../../public/assets/jsxIcons/TrashIcon.jsx'
 const ClubItem = ({item, i, editHandler, deleteHandler}) => {
 
 
-    const {id, description, color} = item
+    const {id, title, color} = item
 
     const sortable = useSortable({ id })
     const {setNodeRef, listeners} = sortable
@@ -23,7 +23,7 @@ const ClubItem = ({item, i, editHandler, deleteHandler}) => {
             <span>{ i+1 }</span>
             <DnDIcon {...listeners} style={ dndStyleItem(sortable) }/>
             <div className={ s.color } data-color={color}/>
-            <p className={ s.desc }>{ description }</p>
+            <p className={ s.desc }>{ title }</p>
             <EditIcon className={ s.editIcon } onClick={()=>editHandler(id)}/>
             <TrashIcon onClick={ ()=>deleteHandler(id) }/>
         </li>
