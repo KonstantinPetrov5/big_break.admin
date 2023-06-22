@@ -74,7 +74,7 @@ const FindPhotos = () => {
     }
 
     const deleteHandler = id => {
-        const isConfirm = window.confirm('Удалить партнера?')
+        const isConfirm = window.confirm('Удалить?')
         if (!isConfirm) return null
 
         axiosAuth.delete('/about/gallery/delete', { data: { id } })

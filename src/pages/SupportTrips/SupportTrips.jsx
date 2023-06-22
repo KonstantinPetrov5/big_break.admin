@@ -50,7 +50,7 @@ const SupportTrips = () => {
   const [switchPos, setSwitchPos] = useState(switchData[0].value);
   const [editData, setEditData] = useState(defaultData);
   const [isNew, setIsNew] = useState(true);
-
+console.log( editData.video )
   useEffect(() => {
     axiosAuth('/support/travel')
       .then(({ data }) => setList(data.items))
@@ -77,7 +77,7 @@ const SupportTrips = () => {
     setIsNew(false);
     setIsOpenAside(true);
   };
-
+  console.log(editData)
   const saveHandler = () => {
     setBtnLoading(true);
 

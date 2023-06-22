@@ -75,7 +75,7 @@ export const Router = createBrowserRouter([{
 			{ path: 'teachers/desc',          element: <TeachersDesc/>    },
 			{ path: 'teachers/club',          element: <TeachersClub/>    },
 			{ path: 'teachers/room',          element: <TeachersRoom/>    }, 
-			{ path: 'teachers/gallery',       element: <TeachersGallery/> }, // not ready
+			{ path: 'teachers/gallery',       element: <TeachersGallery/> }, // halfready
 			{ path: 'teachers/sta',           element: <TeachersSta/>     },
 		]},
 
