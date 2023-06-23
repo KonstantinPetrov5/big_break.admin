@@ -4,7 +4,7 @@ import s from './ColorSelect.module.sass'
 const ColorSelect = ({ state, setState }) => {
 
 
-    const colors = ['#4B21B1', '#EA3352', '#ED6E42', '#F6C54E', '#24B121', '#4245e0']
+    const colors = ['#4B21B1', '#EA3352', '#ED6E42', '#F6C54E', '#FF6433', '#4245e0']
 
 
     return (
