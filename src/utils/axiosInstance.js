@@ -4,6 +4,7 @@ import {userAtom} from '../store/UserRecoil.js'
 
 
 const baseURL = 'https://api.xn--80aabraa2blkdnn4h9b6b.xn--80asehdb/api/v1/'
+// const baseURL = 'http://bigchange.backend.test/api/v1'
 
 
 export const axiosAuth = axios.create({ baseURL })
