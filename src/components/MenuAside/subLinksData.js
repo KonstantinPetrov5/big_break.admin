@@ -68,5 +68,15 @@ export const subLinksData = [
             { id: '36', icon: 'photos', link: 'teachers/gallery', label: 'Галерея' },
             { id: '37', icon: 'select', link: 'teachers/sta',     label: 'СТА' },
         ]
+    },
+    {
+        id: '38',
+        label: 'Сообщество большой перемены',
+        isGroup: false,
+        list: [
+            { id: '39', icon: 'banner', link: 'community/banner',  label: 'Баннер' },
+            { id: '40', icon: 'teams',  link: 'community/teams',   label: 'Региональные команды' },
+            { id: '41', icon: 'photos', link: 'community/gallery', label: 'Фотогалерея' },
+        ]
     }
 ]

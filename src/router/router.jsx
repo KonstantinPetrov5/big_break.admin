@@ -34,6 +34,9 @@ import SupportTrips from '../pages/SupportTrips/SupportTrips.jsx'
 import SupportSta2 from '../pages/SupportSta2/SupportSta2.jsx'
 import MentorBanner from '../pages/MentorBanner/MentorBanner.jsx'
 import MentorSchool from '../pages/MentorSchool/MentorSchool.jsx'
+import CommunityGallery from '../pages/CommunityGallery/CommunityGallery.jsx'
+import CommunityBanner from '../pages/CommunityBanner/CommunityBanner.jsx'
+import CommunityTeams from '../pages/CommunityTeams/CommunityTeams.jsx'
 
 
 export const Router = createBrowserRouter([{
@@ -77,6 +80,10 @@ export const Router = createBrowserRouter([{
 			{ path: 'teachers/room',          element: <TeachersRoom/>    }, 
 			{ path: 'teachers/gallery',       element: <TeachersGallery/> }, // halfready
 			{ path: 'teachers/sta',           element: <TeachersSta/>     },
+
+			{ path: 'community/banner',       element: <CommunityBanner/>  },
+			{ path: 'community/teams',        element: <CommunityTeams/>   },
+			{ path: 'community/gallery',      element: <CommunityGallery/> },
 		]},
 
 		{ path: 'login', element: <Login/> },
