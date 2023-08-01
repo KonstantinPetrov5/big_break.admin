@@ -127,10 +127,10 @@ const MainNews = () => {
 
             <h1>Новости</h1>
             
-            <div className={ s.btnContainer }>
+            {/* <div className={ s.btnContainer }>
                 <Button className={ s.btn } add onClick={ ()=>addHandler() }>Добавить</Button>
-                <Button typeUI='border' onClick={() => updateNews()} isDisable={updateIsDisable}>Обновить новости</Button>
-            </div>
+            </div> */}
+            <Button typeUI='border' onClick={() => updateNews()} isDisable={updateIsDisable}>Обновить новости</Button>
 
             <ul className={ s.list }>
                 {
