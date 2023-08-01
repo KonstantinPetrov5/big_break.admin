@@ -3,10 +3,10 @@ import Button from '../../components/ui/Button/Button.jsx'
 import EditAside from '../../components/EditAside/EditAside.jsx'
 import {useEffect, useState} from 'react'
 import NewsItem from './NewsItem/NewsItem.jsx'
-import {dndHandlers} from '../../utils/dndHandlers.js'
-import {restrictToParentElement, restrictToVerticalAxis} from '@dnd-kit/modifiers'
-import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
-import {DndContext} from '@dnd-kit/core'
+// import {dndHandlers} from '../../utils/dndHandlers.js'
+// import {restrictToParentElement, restrictToVerticalAxis} from '@dnd-kit/modifiers'
+// import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
+// import {DndContext} from '@dnd-kit/core'
 import FileInput from '../../components/ui/FileInput/FileInput.jsx'
 import Separator from '../../components/ui/Separator/Separator.jsx'
 import TextInput from '../../components/ui/TextInput/TextInput.jsx'
@@ -34,7 +34,9 @@ const MainNews = () => {
 
     const [editData, setEditData] = useState({})
     const [isNew, setIsNew] = useState(true)
-    console.log('list: ', list)
+    // console.log('list: ', list)
+
+    const [updateIsDisable, setUpdateIsDisable] = useState(false)
 
     useEffect( () => {
         axiosAuth('/news')
@@ -106,6 +108,17 @@ const MainNews = () => {
             .catch(()=>toast.error('Произошла ошибка'))
     }
 
+    const updateNews = () => {
+        setUpdateIsDisable(true)
+        axiosAuth.get('/news/apiconnect').then(() => {
+            toast.success('Запущен процесс синхронизации, примерное время ожидания 5 мин.')
+        })
+        .catch(()=>{
+            toast.error('Произошла ошибка')
+            setUpdateIsDisable(false)
+        })
+    }
+
 
     if (isLoading) return <h1>Загрузка...</h1>
     return <>
@@ -113,8 +126,11 @@ const MainNews = () => {
         <section className={ s.container }>
 
             <h1>Новости</h1>
-
-            <Button className={ s.btn } add onClick={ ()=>addHandler() }>Добавить</Button>
+            
+            <div className={ s.btnContainer }>
+                <Button className={ s.btn } add onClick={ ()=>addHandler() }>Добавить</Button>
+                <Button typeUI='border' onClick={() => updateNews()} isDisable={updateIsDisable}>Обновить новости</Button>
+            </div>
 
             <ul className={ s.list }>
                 {
