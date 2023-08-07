@@ -54,7 +54,7 @@ const MenuAside = () => {
             <>
                 <aside ref={asideRef} className={ s.aside }>
 
-                    <Link to={'/main/banner'} className={ s.toHome }><HomeIcon/>На главную</Link>
+                    <Link to={'http://xn--80aabraa2blkdnn4h9b6b.xn--80asehdb/'} target={'_blank'} className={ s.toHome }><HomeIcon/>На главную</Link>
 
                     <div className={ s.subLinksBox }>
                         {
@@ -117,13 +117,13 @@ const MenuAside = () => {
                     </div>
 
                     <div className={ s.mobileItems }>
-                        <p className={ s.exitButton } onClick={ logoutHandler }>
+                        {/* <p className={ s.exitButton } onClick={ logoutHandler }>
                             <ExitIcon/>
                             Выход
-                        </p>
+                        </p> */}
                         <div className={ s.support }>
                             <p>Техническая поддержка:</p>
-                            <a href='https://t.me/syndicate' target="_blank">t.me/syndicate</a>
+                            <a href='https://t.me/syndicate_digital' target="_blank">t.me/syndicate_digital</a>
                         </div>
 
                         <SyndicateIcon className={ s.syndicate }/>
