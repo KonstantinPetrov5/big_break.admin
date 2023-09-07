@@ -84,7 +84,7 @@ const FindStories = () => {
                 description: editData.description || null,
                 image: editData.image || null,
             }
-            axiosAuth.put('/committees/update', queryData)
+            axiosAuth.put('/about/history/update', queryData)
                 .then(()=> {
                     const newList = list.map( obj => obj.id===editData.id ? editData : obj )
                     setList(newList)
